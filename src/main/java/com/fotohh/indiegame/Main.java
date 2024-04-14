@@ -14,6 +14,7 @@ public class Main extends Canvas implements Runnable {
     private Handler handler;
 
     public Main(){
+
         start();
         window = new Window(1280,960, "Indie Game", this);
         handler = new Handler();
@@ -23,7 +24,7 @@ public class Main extends Canvas implements Runnable {
         new Main();
     }
 
-    public synchronized void run(){
+    public void run(){
         long lastTime = System.nanoTime();
         double amountOfTicks = 60f;
         double ns = 1000000000 / amountOfTicks;
@@ -50,7 +51,7 @@ public class Main extends Canvas implements Runnable {
         stop();
     }
 
-    public void start(){
+    public synchronized void start(){
         thread = new Thread(this);
         thread.start();
         running = true;
@@ -65,8 +66,8 @@ public class Main extends Canvas implements Runnable {
         if(bs == null){
             this.createBufferStrategy(3);
         }
-
-        System.out.println("mx: " + getMousePosition().x + " my: " + getMousePosition().y);
+        if(getMousePosition() != null)
+            System.out.println("mx: " + getMousePosition().x + " my: " + getMousePosition().y);
 
         Graphics g = bs.getDrawGraphics();
 
@@ -78,6 +79,7 @@ public class Main extends Canvas implements Runnable {
     public void stop(){
         try {
             thread.join();
+            running = false;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

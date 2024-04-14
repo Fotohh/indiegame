@@ -18,6 +18,7 @@ public class Window {
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.add(graphicHandler);
         jFrame.add(main);
+        main.start();
     }
 
 }
