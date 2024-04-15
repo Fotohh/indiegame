@@ -12,6 +12,9 @@ public class Window {
         JFrame jFrame = new JFrame(t);
 
         jFrame.setPreferredSize(new Dimension(w,h));
+        jFrame.setMaximumSize(new Dimension(w,h));
+        jFrame.setMinimumSize(new Dimension(w,h));
+        jFrame.pack();
         jFrame.setResizable(false);
         jFrame.setLocationRelativeTo(null);
         jFrame.setVisible(true);

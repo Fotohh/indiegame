@@ -10,14 +10,15 @@ public class Main extends Canvas implements Runnable {
 
     private boolean running = false;
     private Thread thread;
-    private Window window;
-    private Handler handler;
+    private static final int WIDTH = 1280;
+    private static final int HEIGHT = WIDTH / 12 * 9;
+    private Window window = new Window(WIDTH,HEIGHT, "Indie Game", this);
+    private Handler handler = new Handler();
 
     public Main(){
-
-        start();
-        window = new Window(1280,960, "Indie Game", this);
-        handler = new Handler();
+        thread = new Thread(this);
+        thread.start();
+        running = true;
     }
 
     public static void main(String[] args) {
@@ -45,6 +46,7 @@ public class Main extends Canvas implements Runnable {
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
                 System.out.println("FPS: " + frames);
+
                 frames = 0;
             }
         }
@@ -52,9 +54,7 @@ public class Main extends Canvas implements Runnable {
     }
 
     public synchronized void start(){
-        thread = new Thread(this);
-        thread.start();
-        running = true;
+
     }
 
     private void tick(){
@@ -62,14 +62,18 @@ public class Main extends Canvas implements Runnable {
     }
 
     private void render(){
-        BufferStrategy bs = this.getBufferStrategy();
+        BufferStrategy bs = getBufferStrategy();
         if(bs == null){
-            this.createBufferStrategy(3);
+            createBufferStrategy(3);
+            return;
         }
+
         if(getMousePosition() != null)
-            System.out.println("mx: " + getMousePosition().x + " my: " + getMousePosition().y);
+            System.out.println("mx: " + getMousePosition().getX() + " my: " + getMousePosition().getY());
 
         Graphics g = bs.getDrawGraphics();
+
+
 
         handler.render(g);
 
