@@ -15,7 +15,7 @@ public class Handler {
         }
     }
 
-    public void render(Graphics g){
+    public synchronized void render(Graphics g){
         for (GameObject gameObject : object) {
             gameObject.render(g);
         }
@@ -25,9 +25,8 @@ public class Handler {
         this.object.add(object);
     }
 
-    public GameObject removeObject(GameObject object){
+    public void removeObject(GameObject object){
         this.object.remove(object);
-        return object;
     }
 
 }

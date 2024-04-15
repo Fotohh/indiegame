@@ -1,24 +1,32 @@
 package com.fotohh.indiegame;
 
+import com.fotohh.indiegame.player.Player;
 import com.fotohh.indiegame.window.Handler;
 import com.fotohh.indiegame.window.Window;
+import lombok.Getter;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Main extends Canvas implements Runnable {
 
-    private boolean running = false;
-    private Thread thread;
+    private boolean running;
+    private final Thread thread;
     private static final int WIDTH = 1280;
-    private static final int HEIGHT = WIDTH / 12 * 9;
-    private Window window = new Window(WIDTH,HEIGHT, "Indie Game", this);
-    private Handler handler = new Handler();
+    private static final int HEIGHT = 960;
+
+    @Getter
+    private final Window window = new Window(WIDTH,HEIGHT, "Indie Game", this);
+    @Getter
+    private final Handler handler = new Handler();
 
     public Main(){
         thread = new Thread(this);
         thread.start();
         running = true;
+
+        Player player = new Player(200,860, this);
+
     }
 
     public static void main(String[] args) {
@@ -46,38 +54,38 @@ public class Main extends Canvas implements Runnable {
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
                 System.out.println("FPS: " + frames);
-
                 frames = 0;
             }
         }
         stop();
     }
 
-    public synchronized void start(){
-
-    }
-
     private void tick(){
         handler.tick();
     }
 
+    private static final boolean ENABLED = false;
+
     private void render(){
-        BufferStrategy bs = getBufferStrategy();
-        if(bs == null){
+
+        BufferStrategy bufferStrategy = getBufferStrategy();
+        if(bufferStrategy == null) {
             createBufferStrategy(3);
             return;
         }
 
-        if(getMousePosition() != null)
+        if (ENABLED && getMousePosition() != null)
             System.out.println("mx: " + getMousePosition().getX() + " my: " + getMousePosition().getY());
 
-        Graphics g = bs.getDrawGraphics();
+        Graphics g = bufferStrategy.getDrawGraphics();
 
-
+        g.setColor(Color.WHITE);
+        g.fillRect(0,0,WIDTH,HEIGHT);
 
         handler.render(g);
 
-        System.out.flush();
+        g.dispose();
+        bufferStrategy.show();
     }
 
     public void stop(){
