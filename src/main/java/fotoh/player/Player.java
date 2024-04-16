@@ -13,6 +13,7 @@ public class Player extends GameObject {
 
     public Player(double x, double y, int width, int height, Main main) {
         super(x, y, width, height, ID.Player, main);
+        setEnabled(true);
     }
 
     @Override
@@ -39,39 +40,40 @@ public class Player extends GameObject {
     private boolean d_down = false;
     private boolean a_down = false;
 
-    protected void initializeControls() {
+
+    public void initializeControls() {
         getEvent().add(event -> {
-            switch (event.getKeyCode()) {
-                case KeyEvent.VK_D -> d_down = true;
-                case KeyEvent.VK_A -> a_down = true;
-                case KeyEvent.VK_W -> {
-                    if (onGround) {
-                        velY = -18;
-                        onGround = false;
+                    switch (event.getKeyCode()) {
+                        case KeyEvent.VK_D -> d_down = true;
+                        case KeyEvent.VK_A -> a_down = true;
+                        case KeyEvent.VK_W -> {
+                            if (onGround) {
+                                velY = -18;
+                                onGround = false;
+                            }
+                        }
                     }
-                }
-            }
-        }, KeyboardEvent.Type.PRESSED);
-        getEvent().add(event -> {
-            switch (event.getKeyCode()) {
-                case KeyEvent.VK_D -> {
-                    setVelX(0);
-                    d_down = false;
-                }
-                case KeyEvent.VK_A -> {
-                    setVelX(0);
-                    a_down = false;
-                }
-                case KeyEvent.VK_W -> {
-                    if (velY < -6.0) velY = -6;
-                }
-            }
-        }, KeyboardEvent.Type.RELEASED);
+                }, KeyboardEvent.Type.PRESSED, this)
+                .add(event -> {
+                    switch (event.getKeyCode()) {
+                        case KeyEvent.VK_D -> {
+                            setVelX(0);
+                            d_down = false;
+                        }
+                        case KeyEvent.VK_A -> {
+                            setVelX(0);
+                            a_down = false;
+                        }
+                        case KeyEvent.VK_W -> {
+                            if (velY < -6.0) velY = -6;
+                        }
+                    }
+                }, KeyboardEvent.Type.RELEASED, this);
     }
 
     @Override
     public void render(Graphics g) {
         g.setColor(Color.BLUE);
-        g.drawImage(ImageLoader.loadImage("C:\\Users\\zinha\\Documents\\Coding\\Python\\indiegame\\src\\main\\java\\fotoh\\res\\person.png"), (int) x, (int) y, main.getWindow().getJFrame());
+        g.drawImage(ImageLoader.loadImage("C:\\Users\\zinha\\Documents\\Coding\\Python\\indiegame\\src\\main\\java\\fotoh\\res\\person.png").getScaledInstance(width, height, Image.SCALE_DEFAULT), (int) x, (int) y, main.getWindow().getJFrame());
     }
 }

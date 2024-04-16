@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.util.Arrays;
 
 @Getter
 @Setter
@@ -16,6 +17,9 @@ public abstract class GameObject {
     protected int width, height;
 
     private final KeyboardEvent event;
+
+    @Getter
+    protected boolean enabled = false;
 
     protected final ID id;
 
@@ -28,12 +32,17 @@ public abstract class GameObject {
         this.main = main;
         this.width = w;
         this.height = h;
-        this.event = main.getWindow().getEvent();
+        this.event = main.getEvent();
         initializeControls();
-        main.getHandler().addObject(this);
+        main.getHandler().addObject(this, enabled);
     }
 
-    protected abstract void initializeControls();
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        main.getHandler().replace(this, enabled);
+    }
+
+    public void initializeControls(){}
 
     public abstract void tick();
 

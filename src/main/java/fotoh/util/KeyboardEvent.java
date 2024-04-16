@@ -1,6 +1,8 @@
 package fotoh.util;
 
-import javax.swing.*;
+import fotoh.Main;
+import fotoh.game.GameObject;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
@@ -9,28 +11,27 @@ import java.util.function.Consumer;
 
 public class KeyboardEvent {
 
-    protected final JFrame jFrame;
+    private final Map<Type, Consumer<KeyEvent>> list = new HashMap<>();
 
-    Map<Type, Consumer<KeyEvent>> list = new HashMap<>();
+    public KeyboardEvent(Main main) {
 
-    public KeyboardEvent(JFrame jFrame) {
-        this.jFrame = jFrame;
-
-        jFrame.addKeyListener(new KeyAdapter() {
+        main.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 list.forEach((key, value) -> {
                     if (key == Type.TYPED) value.accept(e);
                 });
             }
-
+        });
+        main.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 list.forEach((key, value) -> {
                     if (key == Type.PRESSED) value.accept(e);
                 });
             }
-
+        });
+        main.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 list.forEach((key, value) -> {
@@ -40,7 +41,8 @@ public class KeyboardEvent {
         });
     }
 
-    public KeyboardEvent add(Consumer<KeyEvent> consumer, Type type) {
+    public KeyboardEvent add(Consumer<KeyEvent> consumer, Type type, GameObject object) {
+        if(!object.isEnabled()) return this;
         list.put(type, consumer);
         return this;
     }

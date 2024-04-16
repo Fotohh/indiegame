@@ -2,6 +2,7 @@ package fotoh;
 
 import fotoh.player.Player;
 import fotoh.util.ImageLoader;
+import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
 import fotoh.window.Window;
 import lombok.Getter;
@@ -20,13 +21,15 @@ public class Main extends Canvas implements Runnable {
     private final Window window = new Window(WIDTH, HEIGHT, "Indie Game", this);
     @Getter
     private final Handler handler = new Handler();
+    @Getter
+    private final KeyboardEvent event;
 
     public Main() {
         thread = new Thread(this);
         thread.start();
         running = true;
-        Player player = new Player(200, 860, 32, 400, this);
-
+        event = new KeyboardEvent(this);
+        Player player = new Player(200, 860, 32, 32, this);
     }
 
     public static void main(String[] args) {
