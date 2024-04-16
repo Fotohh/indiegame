@@ -1,4 +1,4 @@
-package com.fotohh.indiegame.game;
+package fotoh.game;
 
 public enum ID {
 

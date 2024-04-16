@@ -1,6 +1,6 @@
-package com.fotohh.indiegame.window;
+package fotoh.window;
 
-import com.fotohh.indiegame.game.GameObject;
+import fotoh.game.GameObject;
 
 import java.awt.*;
 import java.util.LinkedList;

@@ -1,6 +1,6 @@
-package com.fotohh.indiegame.game;
+package fotoh.game;
 
-import com.fotohh.indiegame.Main;
+import fotoh.Main;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,20 +10,28 @@ import java.awt.*;
 @Setter
 public abstract class GameObject {
 
-    protected int x,y,velX, velY;
+    protected double x,y,velX, velY;
+    protected int width, height;
+
     protected final ID id;
+
     protected final Main main;
 
-    public GameObject(int x, int y, ID id, Main main){
+    public GameObject(double x, double y, int w, int h, ID id, Main main){
         this.x = x;
         this.y = y;
         this.id = id;
         this.main = main;
+        this.width = w;
+        this.height = h;
         main.getHandler().addObject(this);
     }
 
-    public abstract void tick();
-    public abstract void render(Graphics g);
+    protected abstract void initializeControls();
+
+    protected abstract void tick();
+
+    protected abstract void render(Graphics g);
 
     public void delete(){
         main.getHandler().removeObject(this);

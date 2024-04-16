@@ -1,8 +1,8 @@
-package com.fotohh.indiegame;
+package fotoh;
 
-import com.fotohh.indiegame.player.Player;
-import com.fotohh.indiegame.window.Handler;
-import com.fotohh.indiegame.window.Window;
+import fotoh.player.Player;
+import fotoh.window.Handler;
+import fotoh.window.Window;
 import lombok.Getter;
 
 import java.awt.*;
@@ -25,7 +25,7 @@ public class Main extends Canvas implements Runnable {
         thread.start();
         running = true;
 
-        Player player = new Player(200,860, this);
+        Player player = new Player(200,860, 32, 400, this);
 
     }
 
@@ -54,6 +54,8 @@ public class Main extends Canvas implements Runnable {
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
                 System.out.println("FPS: " + frames);
+                if (ENABLED && getMousePosition() != null)
+                    System.out.println("mx: " + getMousePosition().getX() + " my: " + getMousePosition().getY());
                 frames = 0;
             }
         }
@@ -64,7 +66,7 @@ public class Main extends Canvas implements Runnable {
         handler.tick();
     }
 
-    private static final boolean ENABLED = false;
+    private static final boolean ENABLED = true;
 
     private void render(){
 
@@ -74,8 +76,7 @@ public class Main extends Canvas implements Runnable {
             return;
         }
 
-        if (ENABLED && getMousePosition() != null)
-            System.out.println("mx: " + getMousePosition().getX() + " my: " + getMousePosition().getY());
+
 
         Graphics g = bufferStrategy.getDrawGraphics();
 

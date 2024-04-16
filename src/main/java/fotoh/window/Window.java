@@ -1,6 +1,6 @@
-package com.fotohh.indiegame.window;
+package fotoh.window;
 
-import com.fotohh.indiegame.Main;
+import fotoh.Main;
 import lombok.Getter;
 
 import javax.swing.*;
