@@ -4,6 +4,7 @@ import fotoh.Main;
 import fotoh.game.GameObject;
 import fotoh.game.ID;
 import fotoh.util.ImageLoader;
+import fotoh.util.KeyboardEvent;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -13,7 +14,6 @@ public class Player extends GameObject {
 
     public Player(double x, double y, int width, int height, Main main) {
         super(x, y, width, height, ID.Player, main);
-        initializeControls();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Player extends GameObject {
     private boolean d_down = false;
     private boolean a_down = false;
 
-    protected void initializeControls(){
+    protected void initializeControls(KeyboardEvent event){
         main.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {

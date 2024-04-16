@@ -1,6 +1,7 @@
 package fotoh.game;
 
 import fotoh.Main;
+import fotoh.util.KeyboardEvent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.awt.*;
 public abstract class GameObject {
 
     protected double x,y,velX, velY;
+
     protected int width, height;
 
     protected final ID id;
@@ -25,9 +27,10 @@ public abstract class GameObject {
         this.width = w;
         this.height = h;
         main.getHandler().addObject(this);
+        initializeControls(main.getWindow().getEvent());
     }
 
-    protected abstract void initializeControls();
+    protected abstract void initializeControls(KeyboardEvent event);
 
     protected abstract void tick();
 
