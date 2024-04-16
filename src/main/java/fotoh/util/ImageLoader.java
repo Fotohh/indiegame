@@ -1,12 +1,12 @@
 package fotoh.util;
 
+import fotoh.Main;
+
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class ImageLoader {
 
@@ -14,12 +14,12 @@ public class ImageLoader {
         return bufferImage(filename);
     }
 
-    private static BufferedImage bufferImage(String filename){
+    private static BufferedImage bufferImage(String filePath){
 
         BufferedImage img;
 
         try{
-           img = ImageIO.read(new File(filename));
+           img = ImageIO.read(new File(filePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

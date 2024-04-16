@@ -11,41 +11,41 @@ public class KeyboardEvent {
 
     protected final JFrame jFrame;
 
-    Map<Type, Consumer<Void>> list = new HashMap<>();
+    Map<Type, Consumer<KeyEvent>> list = new HashMap<>();
 
-    public KeyboardEvent(JFrame jFrame){
+    public KeyboardEvent(JFrame jFrame) {
         this.jFrame = jFrame;
 
         jFrame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 list.forEach((key, value) -> {
-                    if (key == Type.TYPED) value.accept(null);
+                    if (key == Type.TYPED) value.accept(e);
                 });
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
                 list.forEach((key, value) -> {
-                    if (key == Type.PRESSED) value.accept(null);
+                    if (key == Type.PRESSED) value.accept(e);
                 });
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 list.forEach((key, value) -> {
-                    if (key == Type.RELEASED) value.accept(null);
+                    if (key == Type.RELEASED) value.accept(e);
                 });
             }
         });
     }
 
-    public KeyboardEvent add(Consumer<Void> consumer, Type type){
+    public KeyboardEvent add(Consumer<KeyEvent> consumer, Type type) {
         list.put(type, consumer);
         return this;
     }
 
-    public enum Type{
+    public enum Type {
         PRESSED,
         RELEASED,
         TYPED

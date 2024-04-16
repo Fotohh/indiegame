@@ -11,32 +11,35 @@ import java.awt.*;
 @Setter
 public abstract class GameObject {
 
-    protected double x,y,velX, velY;
+    protected double x, y, velX, velY;
 
     protected int width, height;
+
+    private final KeyboardEvent event;
 
     protected final ID id;
 
     protected final Main main;
 
-    public GameObject(double x, double y, int w, int h, ID id, Main main){
+    public GameObject(double x, double y, int w, int h, ID id, Main main) {
         this.x = x;
         this.y = y;
         this.id = id;
         this.main = main;
         this.width = w;
         this.height = h;
+        this.event = main.getWindow().getEvent();
+        initializeControls();
         main.getHandler().addObject(this);
-        initializeControls(main.getWindow().getEvent());
     }
 
-    protected abstract void initializeControls(KeyboardEvent event);
+    protected abstract void initializeControls();
 
-    protected abstract void tick();
+    public abstract void tick();
 
-    protected abstract void render(Graphics g);
+    public abstract void render(Graphics g);
 
-    public void delete(){
+    public void delete() {
         main.getHandler().removeObject(this);
     }
 

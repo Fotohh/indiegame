@@ -1,6 +1,7 @@
 package fotoh;
 
 import fotoh.player.Player;
+import fotoh.util.ImageLoader;
 import fotoh.window.Handler;
 import fotoh.window.Window;
 import lombok.Getter;
@@ -16,16 +17,15 @@ public class Main extends Canvas implements Runnable {
     private static final int HEIGHT = 960;
 
     @Getter
-    private final Window window = new Window(WIDTH,HEIGHT, "Indie Game", this);
+    private final Window window = new Window(WIDTH, HEIGHT, "Indie Game", this);
     @Getter
     private final Handler handler = new Handler();
 
-    public Main(){
+    public Main() {
         thread = new Thread(this);
         thread.start();
         running = true;
-
-        Player player = new Player(200,860, 32, 400, this);
+        Player player = new Player(200, 860, 32, 400, this);
 
     }
 
@@ -33,25 +33,25 @@ public class Main extends Canvas implements Runnable {
         new Main();
     }
 
-    public void run(){
+    public void run() {
         long lastTime = System.nanoTime();
         double amountOfTicks = 60f;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
-        while(running){
+        while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
-            while(delta >= 1){
+            while (delta >= 1) {
                 tick();
                 delta--;
             }
-            if(running)
+            if (running)
                 render();
             frames++;
-            if(System.currentTimeMillis() - timer > 1000){
+            if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
                 System.out.println("FPS: " + frames);
                 if (ENABLED && getMousePosition() != null)
@@ -62,26 +62,24 @@ public class Main extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick(){
+    private void tick() {
         handler.tick();
     }
 
     private static final boolean ENABLED = true;
 
-    private void render(){
+    private void render() {
 
         BufferStrategy bufferStrategy = getBufferStrategy();
-        if(bufferStrategy == null) {
+        if (bufferStrategy == null) {
             createBufferStrategy(3);
             return;
         }
 
-
-
         Graphics g = bufferStrategy.getDrawGraphics();
 
         g.setColor(Color.WHITE);
-        g.fillRect(0,0,WIDTH,HEIGHT);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
 
         handler.render(g);
 
@@ -89,7 +87,7 @@ public class Main extends Canvas implements Runnable {
         bufferStrategy.show();
     }
 
-    public void stop(){
+    public void stop() {
         try {
             thread.join();
             running = false;
