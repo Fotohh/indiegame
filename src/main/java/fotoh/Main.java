@@ -10,7 +10,7 @@ import lombok.Getter;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class Main extends Canvas implements Runnable {
+public final class Main extends Canvas implements Runnable {
 
     private boolean running;
     private final Thread thread;
