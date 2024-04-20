@@ -1,7 +1,6 @@
 package fotoh;
 
 import fotoh.player.Player;
-import fotoh.util.ImageLoader;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
 import fotoh.window.Window;
