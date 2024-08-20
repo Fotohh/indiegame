@@ -19,21 +19,21 @@ public class Player extends GameObject {
     @Override
     public void tick() {
         if (d_down && a_down) velX = 0;
-        else if (x >= main.getWidth() - width && d_down) velX = 0;
-        else if (x <= 0 && a_down) velX = 0;
+        else if (getBounds().getX() >= main.getWidth() - getBounds().getWidth() && d_down) velX = 0;
+        else if (getBounds().getX() <= 0 && a_down) velX = 0;
         else if (d_down) setVelX(5);
         else if (a_down) setVelX(-5);
 
         velY += 1;
-        y += velY;
+        getBounds().getAndAddY(velY);
 
-        if (y >= 920 - height) {
-            y = 920 - height;
+        if (getBounds().getY() >= 920 - getBounds().getHeight()) velY = 0; {
+            getBounds().setY(920 - getBounds().getHeight());
             velY = 0;
             onGround = true;
         }
 
-        x += velX;
+        getBounds().getAndAddX(velX);
     }
 
     private boolean onGround = true;
@@ -74,6 +74,6 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.BLUE);
-        g.drawImage(ImageLoader.loadImage("C:\\Users\\zinha\\Documents\\Coding\\Python\\indiegame\\src\\main\\java\\fotoh\\res\\person.png").getScaledInstance(width, height, Image.SCALE_DEFAULT), (int) x, (int) y, main.getWindow().getJFrame());
+        g.drawImage(ImageLoader.loadImage(getClass().getResource("person.png").getFile()).getScaledInstance(getBounds().getWidth(), getBounds().getHeight(), Image.SCALE_DEFAULT), (int) getBounds().getX(), (int) getBounds().getY(), main.getWindow().getJFrame());
     }
 }

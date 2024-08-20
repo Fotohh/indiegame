@@ -1,5 +1,6 @@
 package fotoh;
 
+import fotoh.handler.CollisionManager;
 import fotoh.player.Player;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
@@ -22,6 +23,8 @@ public final class Main extends Canvas implements Runnable {
     private final Handler handler = new Handler();
     @Getter
     private final KeyboardEvent event;
+    @Getter
+    private final CollisionManager collisionManager = new CollisionManager();
 
     public Main() {
         thread = new Thread(this);
@@ -66,6 +69,7 @@ public final class Main extends Canvas implements Runnable {
 
     private void tick() {
         handler.tick();
+        collisionManager.update();
     }
 
     private static final boolean ENABLED = true;
