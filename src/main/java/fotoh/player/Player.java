@@ -15,6 +15,8 @@ public class Player extends GameObject {
         super(x, y, width, height, ID.Player, main);
         setEnabled(true);
         setEntityImage(ImageLoader.loadImage(getClass().getResource("person.png").getFile()).getScaledInstance(getBounds().getWidth(), getBounds().getHeight(), Image.SCALE_DEFAULT));
+
+        getCollider().onCollide(gameObject -> System.out.println("Type: " + gameObject.getId() + " COLLIDED with " + getId()));
     }
 
     @Override
