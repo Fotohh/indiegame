@@ -14,6 +14,7 @@ public class Player extends GameObject {
     public Player(double x, double y, int width, int height, Main main) {
         super(x, y, width, height, ID.Player, main);
         setEnabled(true);
+        setEntityImage(ImageLoader.loadImage(getClass().getResource("person.png").getFile()).getScaledInstance(getBounds().getWidth(), getBounds().getHeight(), Image.SCALE_DEFAULT));
     }
 
     @Override
@@ -74,6 +75,12 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.BLUE);
-        g.drawImage(ImageLoader.loadImage(getClass().getResource("person.png").getFile()).getScaledInstance(getBounds().getWidth(), getBounds().getHeight(), Image.SCALE_DEFAULT), (int) getBounds().getX(), (int) getBounds().getY(), main.getWindow().getJFrame());
+        g.drawImage(getEntityImage(), (int) getBounds().getX(), (int) getBounds().getY(), main.getWindow().getJFrame());
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        getBounds().resize(width, height);
+        setEntityImage(ImageLoader.loadImage(getClass().getResource("person.png").getFile()).getScaledInstance(getBounds().getWidth(), getBounds().getHeight(), Image.SCALE_DEFAULT));
     }
 }

@@ -1,5 +1,6 @@
 package fotoh.handler;
 
+import fotoh.game.GameObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,13 +20,13 @@ public class Collider {
     @Getter
     @Setter
     private boolean colliding;
-    protected Consumer<Void> callback;
+    protected Consumer<GameObject> callback;
 
-    public void onCollide(Consumer<Void> callback){
+    public void onCollide(Consumer<GameObject> callback){
         this.callback = callback;
     }
 
-    protected Consumer<Void> getConsumer(){
+    protected Consumer<GameObject> getConsumer(){
         return callback;
     }
 

@@ -23,6 +23,8 @@ public abstract class GameObject{
 
     protected boolean enabled = false;
 
+    private Image entityImage;
+
     protected final ID id;
 
     protected final Main main;
@@ -39,7 +41,7 @@ public abstract class GameObject{
         initializeControls();
         main.getHandler().addObject(this, enabled);
         collider = new Collider(bounds);
-        main.getCollisionManager().register(collider);
+        main.getCollisionManager().register(this);
     }
 
     public void setEnabled(boolean enabled) {
@@ -56,5 +58,7 @@ public abstract class GameObject{
     public void delete() {
         main.getHandler().removeObject(this);
     }
+
+    public abstract void resize(int width, int height);
 
 }
