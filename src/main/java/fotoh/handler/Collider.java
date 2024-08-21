@@ -7,14 +7,11 @@ import java.util.function.Consumer;
 
 public class Collider {
 
-    public Collider(CollisionManager collisionManager, ObjectBounds bounds) { //
-        this.collisionManager = collisionManager;
+    public Collider(ObjectBounds bounds) {
         this.bounds = bounds;
     }
 
     private final ObjectBounds bounds;
-
-    private final CollisionManager collisionManager;
 
     @Setter
     @Getter

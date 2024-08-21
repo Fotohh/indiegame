@@ -38,7 +38,8 @@ public abstract class GameObject{
         this.bounds = new ObjectBounds(x,y,w,h);
         initializeControls();
         main.getHandler().addObject(this, enabled);
-        collider = new Collider(main.getCollisionManager(), bounds);
+        collider = new Collider(bounds);
+        main.getCollisionManager().register(collider);
     }
 
     public void setEnabled(boolean enabled) {

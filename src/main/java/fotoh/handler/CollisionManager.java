@@ -9,6 +9,10 @@ public class CollisionManager {
 
     private final LinkedList<Collider> objects = new LinkedList<>();
 
+    public void register(Collider collider) {
+        objects.add(collider);
+    }
+
     public void update(){
         //todo check collision
     }
