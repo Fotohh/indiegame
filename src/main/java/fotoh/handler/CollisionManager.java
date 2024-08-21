@@ -15,5 +15,7 @@ public class CollisionManager {
 
     public void update(){
         //todo check collision
+
+        //check if enabled
     }
 }
