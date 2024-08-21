@@ -17,9 +17,8 @@ public class CollisionManager {
     }
 
     public void update(){
-        //todo check collision
 
-        List<GameObject> tmp = objects.stream().toList();
+        ArrayList<GameObject> tmp = (ArrayList<GameObject>) objects.stream().toList();
 
         for(int i = 0; i < tmp.size() - 1; i++){
             GameObject obj = tmp.get(i);
@@ -35,6 +34,6 @@ public class CollisionManager {
             }
         }
 
-        //check if enabled
     }
+
 }
