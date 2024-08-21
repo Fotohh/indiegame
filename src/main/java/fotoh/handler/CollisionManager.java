@@ -28,8 +28,8 @@ public class CollisionManager {
                 if(!other.isEnabled() || !other.getCollider().isCanCollide()) continue;
                 if((other.getBounds().getMinX() > obj.getBounds().getMinX() || other.getBounds().getMaxX() < obj.getBounds().getMaxX())
                         && (other.getBounds().getMinY() > obj.getBounds().getMinY() || other.getBounds().getMaxY() < obj.getBounds().getMaxY())){
-                    obj.getCollider().getConsumer().accept(other);
-                    other.getCollider().getConsumer().accept(obj);
+                    obj.getCollider().onCollide(other);
+                    other.getCollider().onCollide(obj);
                 }
             }
         }

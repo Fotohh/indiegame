@@ -11,7 +11,7 @@ import java.awt.*;
 
 @Getter
 @Setter
-public abstract class GameObject{
+public abstract class GameObject extends Collider {
 
     protected double velX, velY;
 
@@ -31,16 +31,13 @@ public abstract class GameObject{
 
     private Collider collider;
 
-    private ObjectBounds bounds;
-
     public GameObject(double x, double y, int w, int h, ID id, Main main) {
+        super(new ObjectBounds(x,y,w,h));
         this.id = id;
         this.main = main;
         this.event = main.getEvent();
-        this.bounds = new ObjectBounds(x,y,w,h);
         initializeControls();
         main.getHandler().addObject(this, enabled);
-        collider = new Collider(bounds);
         main.getCollisionManager().register(this);
     }
 
