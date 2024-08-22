@@ -76,7 +76,7 @@ public abstract class GameObject {
         main.getHandler().replace(this, enabled);
     }
 
-    public abstract void tick();
+    public abstract void tick(float dt);
 
     public void initializeControls() {}
 

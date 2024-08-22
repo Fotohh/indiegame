@@ -17,26 +17,24 @@ public class KeyboardEvent {
         main.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                list.forEach((key, value) -> {
-                    if (key == Type.TYPED) value.accept(e);
-                });
+                handleKeyEvent(Type.TYPED, e);
             }
-        });
-        main.addKeyListener(new KeyAdapter() {
+
             @Override
             public void keyPressed(KeyEvent e) {
-                list.forEach((key, value) -> {
-                    if (key == Type.PRESSED) value.accept(e);
-                });
+                handleKeyEvent(Type.PRESSED, e);
             }
-        });
-        main.addKeyListener(new KeyAdapter() {
+
             @Override
             public void keyReleased(KeyEvent e) {
-                list.forEach((key, value) -> {
-                    if (key == Type.RELEASED) value.accept(e);
-                });
+                handleKeyEvent(Type.RELEASED, e);
             }
+        });
+    }
+
+    private void handleKeyEvent(Type type, KeyEvent e) {
+        list.forEach((key, value) -> {
+            if (key == type) value.accept(e);
         });
     }
 

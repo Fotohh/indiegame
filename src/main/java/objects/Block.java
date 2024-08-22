@@ -13,7 +13,7 @@ public class Block extends GameObject {
     }
 
     @Override
-    public void tick() {
+    public void tick(float dt) {
         // No updates needed for a static block
     }
 

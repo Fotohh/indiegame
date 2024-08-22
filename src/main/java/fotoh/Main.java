@@ -64,7 +64,7 @@ public final class Main extends Canvas implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
             while (delta >= 1) {
-                tick();
+                tick((float) delta);
                 delta--;
             }
             if (running)
@@ -85,8 +85,8 @@ public final class Main extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick() {
-        handler.tick();
+    private void tick(float dt) {
+        handler.tick(dt);
         collisionManager.update();
     }
 

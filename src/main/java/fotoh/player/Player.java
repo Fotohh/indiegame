@@ -43,21 +43,70 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void tick() {
-        handleMovement();
+    public void tick(float dt) {
+        handleMovement(dt);
         applyGravity();
         checkBounds();
     }
 
-    private void handleMovement() {
-        if (d_down && a_down) velX = 0;
-        else if (d_down) velX = 5;
-        else if (a_down) velX = -5;
-        x += velX;
+    private static final float accelerationX = 0.5f;
+    private static final float accelerationY = 0.5f;
+    private static final float MAX_SPEED_Y = 10.0f;
+    private static final float MAX_SPEED_X = 10.0f;
+    private static final float GRAVITY = 1f;
+    private static final float JUMP_FORCE = -15.0f;
+    private boolean onGround = true;
+    private boolean d_down = false;
+    private boolean a_down = false;
+    private boolean w_down = false;
+
+    private void jump() {
+        if (onGround) {
+            velY = JUMP_FORCE;
+            onGround = false;
+        }
+    }
+
+    private void handleMovement(float dt) {
+
+        if(d_down && a_down){
+            velX = 0;
+        } else if(d_down){
+            velX += accelerationX * dt;
+            if (velX > MAX_SPEED_X) velX = MAX_SPEED_X;
+        } else if(a_down){
+            velX -= accelerationX * dt;
+            if (velX < -MAX_SPEED_X) velX = -MAX_SPEED_X;
+        } else {
+            if (velX > 0) {
+                velX -= accelerationX * dt;
+                if (velX < 0) velX = 0;
+            } else if (velX < 0) {
+                velX += accelerationX * dt;
+                if (velX > 0) velX = 0;
+            }
+        }
+
+        if (w_down) {
+            velY -= accelerationY * dt;
+            if (velY < -MAX_SPEED_Y) velY = -MAX_SPEED_Y;
+        } else {
+            if (velY > 0) {
+                velY -= accelerationY * dt;
+                if (velY < 0) velY = 0;
+            } else if (velY < 0) {
+                velY += accelerationY * dt;
+                if (velY > 0) velY = 0;
+            }
+        }
+
+        y += velY * dt;
+        x += velX * dt;
     }
 
     private void applyGravity() {
-        velY += 1;
+        velY += GRAVITY;
+        if (velY > MAX_SPEED_Y) velY = MAX_SPEED_Y;
         y += velY;
     }
 
@@ -80,39 +129,28 @@ public class Player extends GameObject {
         }
     }
 
-    private boolean onGround = true;
-    private boolean d_down = false;
-    private boolean a_down = false;
-
     @Override
     public void initializeControls() {
         getEvent().add(event -> {
-                    switch (event.getKeyCode()) {
-                        case KeyEvent.VK_D -> d_down = true;
-                        case KeyEvent.VK_A -> a_down = true;
-                        case KeyEvent.VK_W -> {
-                            if (onGround) {
-                                velY = -18;
-                                onGround = false;
-                            }
-                        }
-                    }
-                }, KeyboardEvent.Type.PRESSED, this);
+            switch (event.getKeyCode()) {
+                case KeyEvent.VK_D -> d_down = true;
+                case KeyEvent.VK_A -> a_down = true;
+                case KeyEvent.VK_W -> jump();
+            }
+        }, KeyboardEvent.Type.PRESSED, this);
         getEvent().add(event -> {
-                    switch (event.getKeyCode()) {
-                        case KeyEvent.VK_D -> {
-                            setVelX(0);
-                            d_down = false;
-                        }
-                        case KeyEvent.VK_A -> {
-                            setVelX(0);
-                            a_down = false;
-                        }
-                        case KeyEvent.VK_W -> {
-                            if (velY < -6.0) velY = -6;
-                        }
-                    }
-                }, KeyboardEvent.Type.RELEASED, this);
+            switch (event.getKeyCode()) {
+                case KeyEvent.VK_D -> {
+                    setVelX(0);
+                    d_down = false;
+                }
+                case KeyEvent.VK_A -> {
+                    setVelX(0);
+                    a_down = false;
+                }
+                case KeyEvent.VK_W -> w_down = false;
+            }
+        }, KeyboardEvent.Type.RELEASED, this);
     }
 
     @Override

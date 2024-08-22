@@ -9,9 +9,9 @@ public class Handler {
 
     private final ConcurrentHashMap<GameObject, Boolean> object = new ConcurrentHashMap<>();
 
-    public synchronized void tick() {
+    public synchronized void tick(float dt) {
         object.forEach((key, value) -> {
-            if (value) key.tick();
+            if (value) key.tick(dt);
         });
     }
 
