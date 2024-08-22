@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class ImageLoader {
 
-    public static Image loadImage(String filename){
+    protected static Image loadImage(String filename){
         return bufferImage(filename);
     }
 

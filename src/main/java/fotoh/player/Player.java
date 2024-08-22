@@ -3,8 +3,8 @@ package fotoh.player;
 import fotoh.Main;
 import fotoh.game.GameObject;
 import fotoh.game.ID;
-import fotoh.util.ImageLoader;
 import fotoh.util.KeyboardEvent;
+import fotoh.util.ResourceManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -13,7 +13,7 @@ public class Player extends GameObject {
 
     public Player(float x, float y, float width, float height, Main main) {
         super(x, y, width, height, ID.Player, main);
-        Image image = ImageLoader.loadImage(getClass().getResource("/person.png").getFile());
+        Image image = ResourceManager.getImage(getClass().getResource("/person.png").getFile());
         setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
 
         getCollider().onCollide(this::handleCollision);
