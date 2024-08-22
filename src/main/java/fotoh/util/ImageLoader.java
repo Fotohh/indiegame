@@ -1,7 +1,5 @@
 package fotoh.util;
 
-import fotoh.Main;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,9 +13,7 @@ public class ImageLoader {
     }
 
     private static BufferedImage bufferImage(String filePath){
-
         BufferedImage img;
-
         try{
            img = ImageIO.read(new File(filePath));
         } catch (IOException e) {

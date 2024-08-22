@@ -14,7 +14,6 @@ public class KeyboardEvent {
     private final Map<Type, Consumer<KeyEvent>> list = new HashMap<>();
 
     public KeyboardEvent(Main main) {
-
         main.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
