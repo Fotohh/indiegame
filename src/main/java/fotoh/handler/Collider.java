@@ -13,8 +13,8 @@ public abstract class Collider {
     }
 
     private final ObjectBounds bounds;
-    private boolean canCollide;
-    private boolean colliding;
+    private boolean canCollide = true;
+    private boolean colliding = false;
 
     public abstract void onCollide(GameObject callback);
 

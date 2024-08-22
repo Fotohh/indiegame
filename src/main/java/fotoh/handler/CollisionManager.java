@@ -16,20 +16,26 @@ public class CollisionManager {
         objects.add(collider);
     }
 
-    public void update(){
+    public synchronized void update(){
 
-        ArrayList<GameObject> tmp = (ArrayList<GameObject>) objects.stream().toList();
+        System.out.println(objects.size());
 
-        for(int i = 0; i < tmp.size() - 1; i++){
-            GameObject obj = tmp.get(i);
-            if(!obj.isEnabled() || !obj.getCollider().isCanCollide()) continue;
-            for(int a = i; a < tmp.size() -1; a++){
-                GameObject other = tmp.get(a);
-                if(!other.isEnabled() || !other.getCollider().isCanCollide()) continue;
-                if((other.getBounds().getMinX() > obj.getBounds().getMinX() || other.getBounds().getMaxX() < obj.getBounds().getMaxX())
-                        && (other.getBounds().getMinY() > obj.getBounds().getMinY() || other.getBounds().getMaxY() < obj.getBounds().getMaxY())){
-                    obj.getCollider().onCollide(other);
-                    other.getCollider().onCollide(obj);
+        for(GameObject obj : objects){
+            if(!obj.isEnabled() || !obj.isCanCollide()) continue;
+            for(GameObject other : objects){
+                if(obj.getObjectUUID().equals(other.getObjectUUID())) continue;
+                if(!other.isEnabled() || !other.isCanCollide()) continue;
+                double f_minY = other.getBounds().getMinY();
+                double f_maxY = other.getBounds().getMaxY();
+                double f_minX = other.getBounds().getMinX();
+                double f_maxX = other.getBounds().getMaxX();
+                double s_minY = obj.getBounds().getMinY();
+                double s_maxY = obj.getBounds().getMaxY();
+                double s_minX = obj.getBounds().getMinX();
+                double s_maxX = obj.getBounds().getMaxX();
+                if((f_minX > s_minX || f_maxX  < s_maxX) && (f_minY > s_minY || f_maxY  < s_maxY)){
+                    obj.onCollide(other);
+                    other.onCollide(obj);
                 }
             }
         }

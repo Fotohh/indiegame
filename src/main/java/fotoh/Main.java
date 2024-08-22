@@ -1,6 +1,8 @@
 package fotoh;
 
+import fotoh.game.ID;
 import fotoh.handler.CollisionManager;
+import fotoh.object.Block;
 import fotoh.player.Player;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
@@ -17,6 +19,8 @@ public final class Main extends Canvas implements Runnable {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 960;
 
+    private static final boolean DEBUG = false;
+
     @Getter
     private final Window window = new Window(WIDTH, HEIGHT, "Indie Game", this);
     @Getter
@@ -27,11 +31,13 @@ public final class Main extends Canvas implements Runnable {
     private final CollisionManager collisionManager = new CollisionManager();
 
     public Main() {
+
         thread = new Thread(this);
         thread.start();
         running = true;
         event = new KeyboardEvent(this);
-        Player player = new Player(200, 860, 32, 32, this);
+        Player player = new Player(500, 860, 32, 32, this);
+        Block brick = new Block(400, 860, 64, 64, this);
     }
 
     public static void main(String[] args) {
@@ -58,9 +64,11 @@ public final class Main extends Canvas implements Runnable {
             frames++;
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println("FPS: " + frames);
-                if (ENABLED && getMousePosition() != null)
-                    System.out.println("mx: " + getMousePosition().getX() + " my: " + getMousePosition().getY());
+                if(DEBUG) {
+                    System.out.println("FPS: " + frames);
+                    if (ENABLED && getMousePosition() != null)
+                        System.out.println("mx: " + getMousePosition().getX() + " my: " + getMousePosition().getY());
+                }
                 frames = 0;
             }
         }
