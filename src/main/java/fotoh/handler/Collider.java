@@ -4,18 +4,34 @@ import fotoh.game.GameObject;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+import java.util.function.Consumer;
+
+
 @Getter
-public abstract class Collider {
+public class Collider {
 
-    public Collider(ObjectBounds bounds) {
-        this.bounds = bounds;
-    }
-
-    private final ObjectBounds bounds;
+    @Setter
     private boolean canCollide = true;
+    @Setter
     private boolean colliding = false;
 
-    public abstract void onCollide(GameObject callback);
+    private Consumer<GameObject> other;
+
+    public void onCollide(Consumer<GameObject> other){
+        this.other = other;
+    }
+
+    public float getMinX(float x, float w){
+        return x - w/2;
+    }
+    public float getMaxX(float x, float w){
+        return x + w/2;
+    }
+    public float getMinY(float y, float h){
+        return y - h/2;
+    }
+    public float getMaxY(float y, float h){
+        return y + h/2;
+    }
 
 }

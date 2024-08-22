@@ -11,29 +11,35 @@ import java.awt.event.KeyEvent;
 
 public class Player extends GameObject {
 
-    public Player(double x, double y, int width, int height, Main main) {
+    public Player(float x, float y, float width, float height, Main main) {
         super(x, y, width, height, ID.Player, main);
-        setEntityImage(ImageLoader.loadImage(getClass().getResource("/person.png").getFile()).getScaledInstance(getBounds().getWidth(), getBounds().getHeight(), Image.SCALE_DEFAULT));
+        Image image = ImageLoader.loadImage(getClass().getResource("/person.png").getFile());
+        setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
+
+        getCollider().onCollide(gameObject -> {
+            System.out.println("Collision");
+        });
+
     }
 
     @Override
     public void tick() {
+
         if (d_down && a_down) velX = 0;
-        else if (getBounds().getX() >= main.getWidth() - getBounds().getWidth() && d_down) velX = 0;
-        else if (getBounds().getX() <= 0 && a_down) velX = 0;
-        else if (d_down) setVelX(5);
-        else if (a_down) setVelX(-5);
+        else if (x >= main.getWidth() - width && d_down) velX = 0;
+        else if (x <= 0 && a_down) velX = 0;
+        else if (d_down) velX = 5;
+        else if (a_down) velX = -5;
 
         velY += 1;
-        getBounds().getAndAddY(velY);
+        y += velY;
 
-        if (getBounds().getY() >= 920 - getBounds().getHeight()) velY = 0; {
-            getBounds().setY(920 - getBounds().getHeight());
+        if (y >= 920 - height) setY(0); {
+            setY(920 - height);
             velY = 0;
             onGround = true;
         }
-
-        getBounds().getAndAddX(velX);
+        x += velX;
     }
 
     private boolean onGround = true;
@@ -74,11 +80,7 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.BLUE);
-        g.drawImage(getEntityImage(), (int) getBounds().getX(), (int) getBounds().getY(), main.getWindow().getJFrame());
+        g.drawImage(getEntityImage(), (int) x, (int) y, main.getWindow().getJFrame());
     }
 
-    @Override
-    public void onCollide(GameObject callback) {
-        System.out.println("Type: " + callback.getId() + " COLLIDED with " + getId());
-    }
 }

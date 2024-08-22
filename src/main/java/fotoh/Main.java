@@ -1,8 +1,6 @@
 package fotoh;
 
-import fotoh.game.ID;
 import fotoh.handler.CollisionManager;
-import fotoh.object.Block;
 import fotoh.player.Player;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
@@ -37,7 +35,6 @@ public final class Main extends Canvas implements Runnable {
         running = true;
         event = new KeyboardEvent(this);
         Player player = new Player(500, 860, 32, 32, this);
-        Block brick = new Block(400, 860, 64, 64, this);
     }
 
     public static void main(String[] args) {
@@ -66,7 +63,7 @@ public final class Main extends Canvas implements Runnable {
                 timer += 1000;
                 if(DEBUG) {
                     System.out.println("FPS: " + frames);
-                    if (ENABLED && getMousePosition() != null)
+                    if (getMousePosition() != null)
                         System.out.println("mx: " + getMousePosition().getX() + " my: " + getMousePosition().getY());
                 }
                 frames = 0;
@@ -79,8 +76,6 @@ public final class Main extends Canvas implements Runnable {
         handler.tick();
         collisionManager.update();
     }
-
-    private static final boolean ENABLED = true;
 
     private void render() {
 

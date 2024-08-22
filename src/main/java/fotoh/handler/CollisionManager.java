@@ -3,9 +3,7 @@ package fotoh.handler;
 import fotoh.game.GameObject;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 @Getter
 public class CollisionManager {
@@ -16,27 +14,25 @@ public class CollisionManager {
         objects.add(collider);
     }
 
+    private boolean checkAABBCollision(GameObject A, GameObject B) {
+      var AisToTheRightOfB = A.getCollider().getMinX(A.getX(), A.getWidth()) > B.getCollider().getMaxX(B.getX(), B.getWidth());
+      var AisToTheLeftOfB = A.getCollider().getMaxX(A.getX(), A.getWidth()) < B.getCollider().getMinX(B.getX(), B.getWidth());
+      var AisAboveB = A.getCollider().getMinY(A.getY(), A.getHeight()) > B.getCollider().getMaxY(B.getY(), B.getHeight());
+      var AisBelowB = A.getCollider().getMaxY(A.getY(), A.getHeight()) < B.getCollider().getMinY(B.getY(), B.getHeight());
+      return !(AisToTheRightOfB
+        || AisToTheLeftOfB
+        || AisAboveB
+        || AisBelowB);
+    }
+
     public synchronized void update(){
 
-        System.out.println(objects.size());
-
         for(GameObject obj : objects){
-            if(!obj.isEnabled() || !obj.isCanCollide()) continue;
+            if(!obj.isEnabled() || !obj.getCollider().isCanCollide()) continue;
             for(GameObject other : objects){
                 if(obj.getObjectUUID().equals(other.getObjectUUID())) continue;
-                if(!other.isEnabled() || !other.isCanCollide()) continue;
-                double f_minY = other.getBounds().getMinY();
-                double f_maxY = other.getBounds().getMaxY();
-                double f_minX = other.getBounds().getMinX();
-                double f_maxX = other.getBounds().getMaxX();
-                double s_minY = obj.getBounds().getMinY();
-                double s_maxY = obj.getBounds().getMaxY();
-                double s_minX = obj.getBounds().getMinX();
-                double s_maxX = obj.getBounds().getMaxX();
-                if((f_minX > s_minX || f_maxX  < s_maxX) && (f_minY > s_minY || f_maxY  < s_maxY)){
-                    obj.onCollide(other);
-                    other.onCollide(obj);
-                }
+                if(!other.isEnabled() || !other.getCollider().isCanCollide()) continue;
+                if (checkAABBCollision(obj, other)) obj.getCollider().getOther().accept(other);
             }
         }
 
