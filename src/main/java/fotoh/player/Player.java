@@ -34,21 +34,21 @@ public class Player extends LivingEntity {
     protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
         switch (collisionDirection) {
             case LEFT -> {
-                setVelX(0);
-                setX(other.getX() - getWidth());
+                velX = 0;
+                x = other.getX() - width;
             }
             case RIGHT -> {
-                setVelX(0);
-                setX(other.getX() + other.getWidth());
+                velX = 0;
+                x = other.getX() + other.getWidth();
             }
             case TOP -> {
-                setVelY(0);
-                setY(other.getY() - getHeight());
-                getGravity().setOnGround(true);
+                velY = 0;
+                y = other.getY() - height;
+                gravity.setOnGround(true);
             }
             case BOTTOM -> {
-                setVelY(0);
-                setY(other.getY() + other.getHeight());
+                velY = 0;
+                y = other.getY() + other.getHeight();
             }
         }
     }
