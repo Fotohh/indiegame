@@ -1,4 +1,4 @@
-package objects;
+package fotoh.objects;
 
 import fotoh.Main;
 import fotoh.game.GameObject;

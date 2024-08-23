@@ -7,7 +7,7 @@ import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
 import fotoh.window.Window;
 import lombok.Getter;
-import objects.Block;
+import fotoh.objects.Block;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -38,7 +38,6 @@ public final class Main extends Canvas implements Runnable {
     private double mX, mY;
 
     public Main() {
-
         thread = new Thread(this);
         thread.start();
         running = true;
