@@ -57,23 +57,7 @@ public class Player extends LivingEntity {
     public void tick(float dt) {
         handleMovement(dt);
         gravity.applyGravity();
-
-        if (x < 0) {
-            x = 0;
-            velX = 0;
-        } else if (x + width > main.getWidth()) {
-            x = main.getWidth() - width;
-            velX = 0;
-        }
-
-        if (y < 0) {
-            y = 0;
-            velY = 0;
-        } else if (y + height > main.getHeight()) {
-            y = main.getHeight() - height;
-            velY = 0;
-            gravity.setOnGround(true);
-        }
+        getCollider().checkBounds(this, main);
     }
 
 

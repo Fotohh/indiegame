@@ -16,10 +16,10 @@ public class CollisionManager {
 
     public synchronized void update() {
         for (GameObject obj : objects) {
-            if (!obj.isEnabled() || !obj.getCollider().isCanCollide()) continue;
+            if (!obj.isEnabled() || !obj.getCollider().isEnabled()) continue;
             for (GameObject other : objects) {
                 if (obj.getObjectUUID().equals(other.getObjectUUID())) continue;
-                if (!other.isEnabled() || !other.getCollider().isCanCollide()) continue;
+                if (!other.isEnabled() || !other.getCollider().isEnabled()) continue;
                 if (checkCollision(obj, other)) {
                     handleCollision(obj, other);
                 }

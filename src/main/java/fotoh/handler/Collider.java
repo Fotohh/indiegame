@@ -1,5 +1,6 @@
 package fotoh.handler;
 
+import fotoh.Main;
 import fotoh.game.GameObject;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,9 +19,7 @@ public class Collider {
     }
 
     @Setter
-    private boolean canCollide = true;
-    @Setter
-    private boolean colliding = false;
+    private boolean enabled = true;
 
     private Consumer<GameObject> other;
 
@@ -43,6 +42,25 @@ public class Collider {
         return new float[]{min, max};
     }
 
+    public void checkBounds(GameObject o, Main main){
+        if (o.getX() < 0) {
+            o.setX(0);
+            o.setVelX(0);
+        } else if (o.getX() + o.getWidth() > main.getWidth()) {
+            o.setX(main.getWidth() - o.getWidth());
+            o.setVelX(0);
+        }
+
+        if (o.getY() < 0) {
+            o.setY(0);
+            o.setVelY(0);
+        } else if (o.getY() + o.getHeight() > main.getHeight()) {
+            o.setY(main.getHeight() - o.getHeight());
+            o.setVelY(0);
+            o.getGravity().setOnGround(true);
+        }
+    }
+
     private float dotProduct(float x, float y, float[] axis) {
         return x * axis[0] + y * axis[1];
     }
@@ -52,6 +70,7 @@ public class Collider {
     }
 
     boolean checkSATCollision(GameObject A, GameObject B) {
+        if(!enabled) return false;
         float[][] axesA = A.getAxes();
         float[][] axesB = B.getAxes();
 
@@ -82,4 +101,5 @@ public class Collider {
             return dy > 0 ? CollisionDirection.TOP : CollisionDirection.BOTTOM;
         }
     }
+
 }

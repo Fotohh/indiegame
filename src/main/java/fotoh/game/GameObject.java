@@ -13,13 +13,11 @@ import java.util.UUID;
 @Setter
 public abstract class GameObject {
 
-
-
     protected float velX, velY, x, y, width, height;
     protected final Gravity gravity;
     protected final Controllable controllable;
     private final KeyboardEvent event;
-    private final Collider collider = new Collider();
+    protected final Collider collider = new Collider();
     private final UUID objectUUID;
     private boolean isVisible = true;
     private boolean enabled = true;
@@ -97,4 +95,5 @@ public abstract class GameObject {
     public void resize(float width, float height) {
         setEntityImage(getEntityImage().getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
     }
+
 }
