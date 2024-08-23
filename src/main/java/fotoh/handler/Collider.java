@@ -110,28 +110,6 @@ public class Collider {
         return true;
     }
 
-    public List<CollisionDirection> getCollisionDirections(GameObject obj, GameObject other) {
-        List<CollisionDirection> directions = new ArrayList<>();
-        float dx = obj.getX() - other.getX();
-        float dy = obj.getY() - other.getY();
-
-        if (Math.abs(dx) > Math.abs(dy)) {
-            if (dx > 0) {
-                directions.add(CollisionDirection.LEFT);
-            } else {
-                directions.add(CollisionDirection.RIGHT);
-            }
-        } else {
-            if (dy > 0) {
-                directions.add(CollisionDirection.TOP);
-            } else {
-                directions.add(CollisionDirection.BOTTOM);
-            }
-        }
-
-        return directions;
-    }
-
     public CollisionDirection getCollisionDirection(GameObject self, GameObject other) {
         float dx = other.getX() - self.getX();
         float dy = other.getY() - self.getY();
