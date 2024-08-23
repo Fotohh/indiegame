@@ -25,6 +25,7 @@ public class Gravity {
 
     public void applyGravity() {
         if(!enabled) return;
+        if(onGround) return;
         obj.setVelY(obj.getVelY() + gravity);
         if (getObj().getVelY() > MAX_SPEED_Y) getObj().setVelY(MAX_SPEED_Y);
         getObj().setY(getObj().getY() + getObj().getVelY());
@@ -32,6 +33,7 @@ public class Gravity {
 
     public void fall(float dt){
         if(!enabled) return;
+        if(onGround) return;
         if (getObj().getVelY() > 0) {
             getObj().setVelY(getObj().getVelY() - accelerationY * dt);
             if (getObj().getVelY() < 0) getObj().setVelY(0);

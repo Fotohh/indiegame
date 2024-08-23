@@ -22,6 +22,7 @@ public class CollisionManager {
                 if (!other.isEnabled() || !other.getCollider().isEnabled()) continue;
                 if (checkCollision(obj, other)) {
                     handleCollision(obj, other);
+                    handleCollision(other, obj);
                 }
             }
         }

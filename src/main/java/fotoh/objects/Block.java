@@ -28,19 +28,22 @@ public class Block extends GameObject {
             case LEFT -> {
                 velX = 0;
                 x = other.getX() - width;
+                gravity.setOnGround(false);
             }
             case RIGHT -> {
                 velX = 0;
                 x = other.getX() + other.getWidth();
+                gravity.setOnGround(false);
             }
             case TOP -> {
                 velY = 0;
                 y = other.getY() - height;
-                gravity.setOnGround(true);
+                gravity.setOnGround(false);
             }
             case BOTTOM -> {
                 velY = 0;
                 y = other.getY() + other.getHeight();
+                gravity.setOnGround(true);
             }
         }
     }

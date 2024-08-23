@@ -14,7 +14,7 @@ import java.util.UUID;
 public abstract class GameObject {
 
     protected float velX, velY, x, y, width, height;
-    protected final Gravity gravity;
+    protected final Gravity gravity = new Gravity(this);
     protected final Controllable controllable;
     private final KeyboardEvent event;
     protected final Collider collider = new Collider();
@@ -36,7 +36,6 @@ public abstract class GameObject {
         this.event = main.getEvent();
         main.getCollisionManager().register(this);
         main.getHandler().addObject(this, enabled);
-        gravity = new Gravity(this);
         controllable = new Controllable(this);
         initializeControls();
     }

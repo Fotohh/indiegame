@@ -42,9 +42,10 @@ public final class Main extends Canvas implements Runnable {
         thread.start();
         running = true;
         event = new KeyboardEvent(this);
-        Player player = new Player(500, getHeight(), 32, 32, this);
-        Block block = new Block(400, 880, 32,32, ID.Block, this);
+        Player player = new Player(500, 800, 32, 32, this);
+        Block block = new Block(400, 850, 32,32, ID.Block, this);
         Block block2 = new Block(400, 800, 32,32, ID.Block, this);
+        Block ground = new Block(0, getHeight(), getWidth(), 2, ID.Block, this);
     }
 
     public static void main(String[] args) {
