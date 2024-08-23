@@ -26,14 +26,14 @@ public class Player extends LivingEntity {
         super(x, y, width, height, ID.Player, main);
         Image image = ResourceManager.getImage(getClass().getResource("/person.png").getFile());
         setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
-        getCollider().onCollide(gameObject -> handleCollisions(gameObject, getCollider().getCollisionDirections(this, gameObject)));
+        getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
         gravity.setEnabled(true);
         getControllable().setEnabled(true);
     }
 
     @Override
-    protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
-        switch (collisionDirection) {
+    protected void handleCollision(GameObject other, Collider.CollisionDirection direction) {
+        switch (direction) {
             case LEFT -> {
                 velX = 0;
                 x = other.getX() - width;
@@ -51,26 +51,11 @@ public class Player extends LivingEntity {
                 y = other.getY() + other.getHeight();
             }
         }
+
     }
 
     @Override
-    protected void handleCollisions(GameObject other, List<Collider.CollisionDirection> collisionDirection) {
-        gravity.setOnGround(collisionDirection.contains(Collider.CollisionDirection.BOTTOM));
-        for(Collider.CollisionDirection direction : collisionDirection){
-            handleCollision(other, direction);
-        }
-    }
-
-    @Override
-    public void tick(float dt) {
-        handleMovement(dt);
-        gravity.applyGravity();
-        getCollider().checkBounds(this, main);
-    }
-
-
-
-    private void handleMovement(float dt) {
+    protected void handleMovement(float dt) {
 
         if(d_down && a_down){
             velX = 0;

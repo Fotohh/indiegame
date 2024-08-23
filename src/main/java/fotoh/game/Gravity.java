@@ -23,6 +23,12 @@ public class Gravity {
 
     private boolean enabled = true;
 
+    public void update(float dt){
+        if(!enabled) return;
+        fall(dt);
+        applyGravity();
+    }
+
     public void applyGravity() {
         if(!enabled) return;
         if(onGround) return;
@@ -33,7 +39,6 @@ public class Gravity {
 
     public void fall(float dt){
         if(!enabled) return;
-        if(onGround) return;
         if (getObj().getVelY() > 0) {
             getObj().setVelY(getObj().getVelY() - accelerationY * dt);
             if (getObj().getVelY() < 0) getObj().setVelY(0);

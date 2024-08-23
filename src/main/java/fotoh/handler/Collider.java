@@ -31,10 +31,11 @@ public class Collider {
 
     public void update(GameObject object, Main main){
         if(!enabled) return;
-        main.getCollisionManager().update(object);
+        checkCollision(object, main.getGameObjects());
+        checkBounds(object, main);
     }
 
-    public void checkCollision(){
+    public void checkCollision(GameObject obj, List<GameObject> objects) {
         for (GameObject other : objects) {
             if (obj.getObjectUUID().equals(other.getObjectUUID())) continue;
             if (!other.isEnabled() || !other.getCollider().isEnabled()) continue;

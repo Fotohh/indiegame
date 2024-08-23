@@ -15,37 +15,27 @@ public class Block extends GameObject {
     }
 
     @Override
-    public void tick(float dt) {
-        gravity.fall(dt);
-        y += velY * dt;
-        gravity.applyGravity();
-        getCollider().checkBounds(this, main);
-    }
-
-    @Override
-    protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
-        switch (collisionDirection) {
+    protected void handleCollision(GameObject other, Collider.CollisionDirection direction) {
+        switch (direction) {
             case LEFT -> {
                 velX = 0;
                 x = other.getX() - width;
-                gravity.setOnGround(false);
             }
             case RIGHT -> {
                 velX = 0;
                 x = other.getX() + other.getWidth();
-                gravity.setOnGround(false);
             }
             case TOP -> {
                 velY = 0;
                 y = other.getY() - height;
-                gravity.setOnGround(false);
+                gravity.setOnGround(true);
             }
             case BOTTOM -> {
                 velY = 0;
                 y = other.getY() + other.getHeight();
-                gravity.setOnGround(true);
             }
         }
+
     }
 
     @Override

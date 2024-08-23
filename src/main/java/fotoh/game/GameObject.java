@@ -75,16 +75,20 @@ public abstract class GameObject {
         };
     }
 
+    protected void handleMovement(float dt) {}
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
         main.getHandler().replace(this, enabled);
     }
 
-    protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection){}
+    protected void handleCollision(GameObject other, Collider.CollisionDirection direction){}
 
-    protected void handleCollisions(GameObject other, List<Collider.CollisionDirection> collisionDirectionList){}
-
-    public abstract void tick(float dt);
+    public void tick(float dt){
+        if(collider.isEnabled()) collider.update(this, main);
+        if(gravity.isEnabled()) gravity.update(dt);
+        if(controllable.isEnabled()) handleMovement(dt);
+    }
 
     public void initializeControls() {}
 

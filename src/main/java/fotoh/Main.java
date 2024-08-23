@@ -2,7 +2,6 @@ package fotoh;
 
 import fotoh.game.GameObject;
 import fotoh.game.ID;
-import fotoh.handler.CollisionManager;
 import fotoh.player.Player;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
@@ -35,8 +34,6 @@ public final class Main extends Canvas implements Runnable {
     private final Handler handler = new Handler();
     @Getter
     private final KeyboardEvent event;
-    @Getter
-    private final CollisionManager collisionManager = new CollisionManager();
 
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
