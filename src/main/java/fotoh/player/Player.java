@@ -110,10 +110,7 @@ public class Player extends LivingEntity {
 
     @Override
     public void initializeControls() {
-        controllable.keyPressed(KeyEvent.VK_D, _ -> {
-            d_down = true;
-            System.out.println("D pressed");
-        });
+        controllable.keyPressed(KeyEvent.VK_D, _ -> d_down = true);
         controllable.keyReleased(KeyEvent.VK_D, _ -> d_down = false);
 
         controllable.keyPressed(KeyEvent.VK_A, _ -> a_down = true);
@@ -127,32 +124,6 @@ public class Player extends LivingEntity {
             w_down = true;
         });
         controllable.keyReleased(KeyEvent.VK_W, _ -> w_down = false);
-
-        /*getEvent().add(event -> {
-            switch (event.getKeyCode()) {
-                case KeyEvent.VK_D -> d_down = true;
-                case KeyEvent.VK_A -> a_down = true;
-                case KeyEvent.VK_W -> {
-                    if (getGravity().isOnGround()) {
-                        velY = getGravity().getJUMP_FORCE();
-                        getGravity().setOnGround(false);
-                    }
-                }
-            }
-        }, KeyboardEvent.Type.PRESSED, this)
-                .add(event -> {
-            switch (event.getKeyCode()) {
-                case KeyEvent.VK_D -> {
-                    setVelX(0);
-                    d_down = false;
-                }
-                case KeyEvent.VK_A -> {
-                    setVelX(0);
-                    a_down = false;
-                }
-                case KeyEvent.VK_W -> w_down = false;
-            }
-        }, KeyboardEvent.Type.RELEASED, this);*/
     }
 
     @Override

@@ -2,7 +2,6 @@ package fotoh.game;
 
 import fotoh.util.KeyboardEvent;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.function.Consumer;
 
 public class Controllable {
 
-  class Control {
+  static class Control {
     private final int key;
     private final Consumer<Boolean> event;
 
@@ -24,22 +23,29 @@ public class Controllable {
   private final List<Control> keyReleased = new ArrayList<>();
 
   @Getter
-  @Setter
   private boolean enabled = false;
 
   private final GameObject gameObject;
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+    if (enabled) initializeControls();
+    if (!enabled) {
+      gameObject.getEvent().remove(gameObject);
+    }
+  }
 
   public Controllable(GameObject gameObject) {
 
     this.gameObject = gameObject;
 
-    System.out.println("Controllable created");
+    initializeControls();
 
+  }
+
+  public void initializeControls() {
+    if (!gameObject.isEnabled() || !enabled) return;
     gameObject.getEvent().add(keyEvent -> {
-      if (!enabled) {
-        return;
-      }
-      System.out.println("Key pressed: " + keyEvent.getKeyCode());
       for (Control control : keyPressed) {
 
         if (keyEvent.getKeyCode() == control.key) {
@@ -49,16 +55,12 @@ public class Controllable {
     }, KeyboardEvent.Type.PRESSED, gameObject);
 
     gameObject.getEvent().add(keyEvent -> {
-      if (!enabled) {
-        return;
-      }
       for (Control control : keyReleased) {
         if (keyEvent.getKeyCode() == control.key) {
           control.event.accept(false);
         }
       }
     }, KeyboardEvent.Type.RELEASED, gameObject);
-
   }
 
   public synchronized void keyPressed(int key, Consumer<Boolean> event) {
@@ -68,7 +70,5 @@ public class Controllable {
   public synchronized void keyReleased(int key, Consumer<Boolean> event) {
     keyReleased.add(new Control(key, event));
   }
-
-
 
 }

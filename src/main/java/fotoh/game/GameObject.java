@@ -36,8 +36,8 @@ public abstract class GameObject {
         this.event = main.getEvent();
         main.getCollisionManager().register(this);
         main.getHandler().addObject(this, enabled);
-        controllable = new Controllable(this);
         gravity = new Gravity(this);
+        controllable = new Controllable(this);
         initializeControls();
     }
 

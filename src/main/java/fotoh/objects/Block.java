@@ -10,6 +10,7 @@ public class Block extends GameObject {
 
     public Block(float x, float y, float width, float height, ID id, Main main) {
         super(x, y, width, height, id, main);
+        controllable.setEnabled(false);
     }
 
     @Override
