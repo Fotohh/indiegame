@@ -1,7 +1,7 @@
 package fotoh.player;
 
 import fotoh.Main;
-import fotoh.game.Entity;
+import fotoh.game.LivingEntity;
 import fotoh.game.GameObject;
 import fotoh.game.ID;
 import fotoh.util.KeyboardEvent;
@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 @Getter
-public class Player extends Entity {
+public class Player extends LivingEntity {
 
     private final float accelerationX = 0.5f;
     private final float MAX_SPEED_X = 10.0f;
@@ -25,7 +25,8 @@ public class Player extends Entity {
         Image image = ResourceManager.getImage(getClass().getResource("/person.png").getFile());
         setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
         getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
-        getGravity().setEnabled(true);
+        gravity.setEnabled(true);
+        getControllable().setEnabled(true);
     }
 
     @Override
@@ -54,10 +55,8 @@ public class Player extends Entity {
     @Override
     public void tick(float dt) {
         handleMovement(dt);
-        getGravity().applyGravity();
+        gravity.applyGravity();
 
-
-        // Prevent player from going out of bounds
         if (x < 0) {
             x = 0;
             velX = 0;
@@ -72,7 +71,7 @@ public class Player extends Entity {
         } else if (y + height > main.getHeight()) {
             y = main.getHeight() - height;
             velY = 0;
-            getGravity().setOnGround(true);
+            gravity.setOnGround(true);
         }
     }
 
@@ -99,10 +98,10 @@ public class Player extends Entity {
         }
 
         if (w_down) {
-            velY -= getGravity().getAccelerationY()  * dt;
-            if (velY < -getGravity().getMAX_SPEED_Y()) velY = -getGravity().getMAX_SPEED_Y();
+            velY -= gravity.getAccelerationY()  * dt;
+            if (velY < -gravity.getMAX_SPEED_Y()) velY = -gravity.getMAX_SPEED_Y();
         } else {
-            getGravity().fall(dt);
+            gravity.fall(dt);
         }
 
         y += velY * dt;
@@ -111,7 +110,25 @@ public class Player extends Entity {
 
     @Override
     public void initializeControls() {
-        getEvent().add(event -> {
+        controllable.keyPressed(KeyEvent.VK_D, _ -> {
+            d_down = true;
+            System.out.println("D pressed");
+        });
+        controllable.keyReleased(KeyEvent.VK_D, _ -> d_down = false);
+
+        controllable.keyPressed(KeyEvent.VK_A, _ -> a_down = true);
+        controllable.keyReleased(KeyEvent.VK_A, _ -> a_down = false);
+
+        controllable.keyPressed(KeyEvent.VK_W, _ -> {
+            if (gravity.isOnGround()) {
+                velY = gravity.getJUMP_FORCE();
+                gravity.setOnGround(false);
+            }
+            w_down = true;
+        });
+        controllable.keyReleased(KeyEvent.VK_W, _ -> w_down = false);
+
+        /*getEvent().add(event -> {
             switch (event.getKeyCode()) {
                 case KeyEvent.VK_D -> d_down = true;
                 case KeyEvent.VK_A -> a_down = true;
@@ -135,7 +152,7 @@ public class Player extends Entity {
                 }
                 case KeyEvent.VK_W -> w_down = false;
             }
-        }, KeyboardEvent.Type.RELEASED, this);
+        }, KeyboardEvent.Type.RELEASED, this);*/
     }
 
     @Override

@@ -14,11 +14,13 @@ import java.util.UUID;
 public abstract class GameObject {
 
     protected float velX, velY, x, y, width, height;
+    protected final Gravity gravity;
+    protected final Controllable controllable;
     private final KeyboardEvent event;
     private final Collider collider = new Collider();
     private final UUID objectUUID;
     private boolean isVisible = true;
-    protected boolean enabled = true;
+    private boolean enabled = true;
     private Image entityImage;
     protected final ID id;
     protected final Main main;
@@ -34,6 +36,8 @@ public abstract class GameObject {
         this.event = main.getEvent();
         main.getCollisionManager().register(this);
         main.getHandler().addObject(this, enabled);
+        controllable = new Controllable(this);
+        gravity = new Gravity(this);
         initializeControls();
     }
 
