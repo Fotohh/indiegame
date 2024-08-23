@@ -13,6 +13,8 @@ import java.util.UUID;
 @Setter
 public abstract class GameObject {
 
+
+
     protected float velX, velY, x, y, width, height;
     protected final Gravity gravity;
     protected final Controllable controllable;
@@ -80,7 +82,7 @@ public abstract class GameObject {
         main.getHandler().replace(this, enabled);
     }
 
-    protected void handleCollision(GameObject other, String collisionDirection){}
+    protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection){}
 
     public abstract void tick(float dt);
 

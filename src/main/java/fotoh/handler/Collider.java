@@ -10,6 +10,13 @@ import java.util.function.Consumer;
 @Getter
 public class Collider {
 
+    public enum CollisionDirection {
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT
+    }
+
     @Setter
     private boolean canCollide = true;
     @Setter
@@ -63,16 +70,16 @@ public class Collider {
         return true;
     }
 
-    public String getCollisionDirection(GameObject self, GameObject other) {
+    public CollisionDirection getCollisionDirection(GameObject self, GameObject other) {
         float dx = other.getX() - self.getX();
         float dy = other.getY() - self.getY();
         float absDx = Math.abs(dx);
         float absDy = Math.abs(dy);
 
         if (absDx > absDy) {
-            return dx > 0 ? "LEFT" : "RIGHT";
+            return dx > 0 ? CollisionDirection.LEFT : CollisionDirection.RIGHT;
         } else {
-            return dy > 0 ? "TOP" : "BOTTOM";
+            return dy > 0 ? CollisionDirection.TOP : CollisionDirection.BOTTOM;
         }
     }
 }

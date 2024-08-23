@@ -4,6 +4,7 @@ import fotoh.Main;
 import fotoh.game.LivingEntity;
 import fotoh.game.GameObject;
 import fotoh.game.ID;
+import fotoh.handler.Collider;
 import fotoh.util.KeyboardEvent;
 import fotoh.util.ResourceManager;
 import lombok.Getter;
@@ -30,22 +31,22 @@ public class Player extends LivingEntity {
     }
 
     @Override
-    protected void handleCollision(GameObject other, String collisionDirection) {
+    protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
         switch (collisionDirection) {
-            case "LEFT" -> {
+            case LEFT -> {
                 setVelX(0);
                 setX(other.getX() - getWidth());
             }
-            case "RIGHT" -> {
+            case RIGHT -> {
                 setVelX(0);
                 setX(other.getX() + other.getWidth());
             }
-            case "TOP" -> {
+            case TOP -> {
                 setVelY(0);
                 setY(other.getY() - getHeight());
                 getGravity().setOnGround(true);
             }
-            case "BOTTOM" -> {
+            case BOTTOM -> {
                 setVelY(0);
                 setY(other.getY() + other.getHeight());
             }
