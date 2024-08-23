@@ -76,6 +76,8 @@ public abstract class GameObject {
         main.getHandler().replace(this, enabled);
     }
 
+    protected void handleCollision(GameObject other, String collisionDirection){}
+
     public abstract void tick(float dt);
 
     public void initializeControls() {}

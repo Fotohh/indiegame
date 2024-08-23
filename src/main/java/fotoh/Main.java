@@ -43,7 +43,7 @@ public final class Main extends Canvas implements Runnable {
         thread.start();
         running = true;
         event = new KeyboardEvent(this);
-        Player player = new Player(500, 860, 32, 32, this);
+        Player player = new Player(500, getHeight(), 32, 32, this);
         Block block = new Block(400, 880, 32,32, ID.Block, this);
         Block block2 = new Block(400, 800, 32,32, ID.Block, this);
     }
