@@ -16,23 +16,16 @@ public class Block extends GameObject {
 
     @Override
     protected void handleCollision(GameObject other, Collider.CollisionDirection direction) {
+        gravity.setOnGround(false);
         switch (direction) {
-            case LEFT -> {
-                velX = 0;
-                x = other.getX() - width;
-            }
-            case RIGHT -> {
-                velX = 0;
-                x = other.getX() + other.getWidth();
-            }
             case TOP -> {
                 velY = 0;
                 y = other.getY() - height;
-                gravity.setOnGround(true);
             }
             case BOTTOM -> {
                 velY = 0;
                 y = other.getY() + other.getHeight();
+                gravity.setOnGround(true);
             }
         }
 

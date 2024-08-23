@@ -19,25 +19,19 @@ public class Gravity {
 
     private float gravity = 1f;
 
-    private boolean onGround = true;
+    private boolean onGround = false;
 
     private boolean enabled = true;
 
-    public void update(float dt){
-        if(!enabled) return;
-        fall(dt);
-        applyGravity();
-    }
-
-    public void applyGravity() {
-        if(!enabled) return;
-        if(onGround) return;
+    public void update() {
+        if (!enabled) return;
+        if (onGround) return;
         obj.setVelY(obj.getVelY() + gravity);
         if (getObj().getVelY() > MAX_SPEED_Y) getObj().setVelY(MAX_SPEED_Y);
         getObj().setY(getObj().getY() + getObj().getVelY());
     }
 
-    public void fall(float dt){
+    public void fall(float dt) {
         if(!enabled) return;
         if (getObj().getVelY() > 0) {
             getObj().setVelY(getObj().getVelY() - accelerationY * dt);

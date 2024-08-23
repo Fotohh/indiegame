@@ -20,7 +20,7 @@ public class Player extends LivingEntity {
     private final float MAX_SPEED_X = 10.0f;
     protected boolean d_down = false;
     protected boolean a_down = false;
-    protected boolean w_down = false;
+
 
     public Player(float x, float y, float width, float height, Main main) {
         super(x, y, width, height, ID.Player, main);
@@ -33,6 +33,7 @@ public class Player extends LivingEntity {
 
     @Override
     protected void handleCollision(GameObject other, Collider.CollisionDirection direction) {
+        gravity.setOnGround(false);
         switch (direction) {
             case LEFT -> {
                 velX = 0;
@@ -49,6 +50,7 @@ public class Player extends LivingEntity {
             case BOTTOM -> {
                 velY = 0;
                 y = other.getY() + other.getHeight();
+                gravity.setOnGround(true);
             }
         }
 
@@ -57,9 +59,7 @@ public class Player extends LivingEntity {
     @Override
     protected void handleMovement(float dt) {
 
-        if(d_down && a_down){
-            velX = 0;
-        } else if(d_down){
+        if(d_down){
             velX += accelerationX * dt;
             if (velX > MAX_SPEED_X) velX = MAX_SPEED_X;
         } else if(a_down){

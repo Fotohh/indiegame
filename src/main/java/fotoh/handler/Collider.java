@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 
 
@@ -35,13 +36,13 @@ public class Collider {
         checkBounds(object, main);
     }
 
-    public void checkCollision(GameObject obj, List<GameObject> objects) {
+    public void checkCollision(GameObject obj, ConcurrentLinkedQueue<GameObject> objects) {
         for (GameObject other : objects) {
             if (obj.getObjectUUID().equals(other.getObjectUUID())) continue;
             if (!other.isEnabled() || !other.getCollider().isEnabled()) continue;
             if (obj.getCollider().checkSATCollision(obj, other)) {
                 if (obj.getCollider().getOther() != null) {
-                    obj.getCollider().getOther().accept(other);
+                    other.getCollider().getOther().accept(obj);
                 }
             }
         }

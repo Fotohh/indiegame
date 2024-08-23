@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -25,6 +24,7 @@ public abstract class GameObject {
     private Image entityImage;
     protected final ID id;
     protected final Main main;
+    protected boolean w_down = false;
 
     public GameObject(float x, float y, float w, float h, ID id, Main main) {
         this.x = x;
@@ -86,7 +86,7 @@ public abstract class GameObject {
 
     public void tick(float dt){
         if(collider.isEnabled()) collider.update(this, main);
-        if(gravity.isEnabled()) gravity.update(dt);
+        if(gravity.isEnabled()) gravity.update();
         if(controllable.isEnabled()) handleMovement(dt);
     }
 
