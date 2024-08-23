@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -34,7 +35,7 @@ public abstract class GameObject {
         this.id = id;
         this.main = main;
         this.event = main.getEvent();
-        main.getCollisionManager().register(this);
+        main.getGameObjects().add(this);
         main.getHandler().addObject(this, enabled);
         controllable = new Controllable(this);
         initializeControls();
@@ -80,6 +81,8 @@ public abstract class GameObject {
     }
 
     protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection){}
+
+    protected void handleCollisions(GameObject other, List<Collider.CollisionDirection> collisionDirectionList){}
 
     public abstract void tick(float dt);
 

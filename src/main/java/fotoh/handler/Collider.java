@@ -29,6 +29,23 @@ public class Collider {
         this.other = other;
     }
 
+    public void update(GameObject object, Main main){
+        if(!enabled) return;
+        main.getCollisionManager().update(object);
+    }
+
+    public void checkCollision(){
+        for (GameObject other : objects) {
+            if (obj.getObjectUUID().equals(other.getObjectUUID())) continue;
+            if (!other.isEnabled() || !other.getCollider().isEnabled()) continue;
+            if (obj.getCollider().checkSATCollision(obj, other)) {
+                if (obj.getCollider().getOther() != null) {
+                    obj.getCollider().getOther().accept(other);
+                }
+            }
+        }
+    }
+
     private float[] projectPolygonOntoAxis(GameObject obj, float[] axis) {
         float[] vertices = obj.getVertices();
         float min = dotProduct(vertices[0], vertices[1], axis);

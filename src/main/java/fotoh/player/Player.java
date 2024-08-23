@@ -11,6 +11,7 @@ import lombok.Getter;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 @Getter
 public class Player extends LivingEntity {
@@ -25,7 +26,7 @@ public class Player extends LivingEntity {
         super(x, y, width, height, ID.Player, main);
         Image image = ResourceManager.getImage(getClass().getResource("/person.png").getFile());
         setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
-        getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirections(this, gameObject)));
+        getCollider().onCollide(gameObject -> handleCollisions(gameObject, getCollider().getCollisionDirections(this, gameObject)));
         gravity.setEnabled(true);
         getControllable().setEnabled(true);
     }
@@ -33,8 +34,6 @@ public class Player extends LivingEntity {
     @Override
     protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
         switch (collisionDirection) {
-
-            //todo instead of passing a single collision direction, pass a list of collisionDirections
             case LEFT -> {
                 velX = 0;
                 x = other.getX() - width;
@@ -50,8 +49,15 @@ public class Player extends LivingEntity {
             case BOTTOM -> {
                 velY = 0;
                 y = other.getY() + other.getHeight();
-                gravity.setOnGround(true);
             }
+        }
+    }
+
+    @Override
+    protected void handleCollisions(GameObject other, List<Collider.CollisionDirection> collisionDirection) {
+        gravity.setOnGround(collisionDirection.contains(Collider.CollisionDirection.BOTTOM));
+        for(Collider.CollisionDirection direction : collisionDirection){
+            handleCollision(other, direction);
         }
     }
 

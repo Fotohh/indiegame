@@ -1,5 +1,6 @@
 package fotoh;
 
+import fotoh.game.GameObject;
 import fotoh.game.ID;
 import fotoh.handler.CollisionManager;
 import fotoh.player.Player;
@@ -11,6 +12,8 @@ import fotoh.objects.Block;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -22,6 +25,9 @@ public final class Main extends Canvas implements Runnable {
     private static final int HEIGHT = 960;
 
     private static final boolean DEBUG = true;
+
+    @Getter
+    private final List<GameObject> gameObjects = new ArrayList<>();
 
     @Getter
     private final Window window = new Window(WIDTH, HEIGHT, "Indie Game", this);
@@ -87,7 +93,6 @@ public final class Main extends Canvas implements Runnable {
 
     private void tick(float dt) {
         handler.tick(dt);
-        collisionManager.update();
     }
 
     private void render() {
