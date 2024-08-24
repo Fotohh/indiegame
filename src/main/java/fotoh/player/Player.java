@@ -17,8 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 public class Player extends LivingEntity {
 
-    private final float accelerationX = 0.5f;
-    private final float MAX_SPEED_X = 10.0f;
     protected boolean d_down = false;
     protected boolean a_down = false;
     private boolean canMoveLeft = true;
@@ -93,13 +91,6 @@ public class Player extends LivingEntity {
 
         moveLeftRight();
 
-        if (w_down) {
-            velY -= gravity.getAccelerationY() * dt;
-            if (velY < -gravity.getMAX_SPEED_Y()) velY = -gravity.getMAX_SPEED_Y();
-        } else {
-            gravity.fall(dt);
-        }
-
         y += velY * dt;
         x += velX * dt;
     }
@@ -108,17 +99,9 @@ public class Player extends LivingEntity {
     public void initializeControls() {
         controllable.keyPressed(KeyEvent.VK_D, _ -> d_down = true);
         controllable.keyReleased(KeyEvent.VK_D, _ -> d_down = false);
-
         controllable.keyPressed(KeyEvent.VK_A, _ -> a_down = true);
         controllable.keyReleased(KeyEvent.VK_A, _ -> a_down = false);
-
-        controllable.keyPressed(KeyEvent.VK_W, _ -> {
-            w_down = true;
-            if (gravity.isOnGround()) {
-                velY = gravity.getJUMP_FORCE();
-                gravity.setOnGround(false);
-            }
-        });
+        controllable.keyPressed(KeyEvent.VK_W, _ -> w_down = true);
         controllable.keyReleased(KeyEvent.VK_W, _ -> w_down = false);
     }
 

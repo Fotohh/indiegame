@@ -9,7 +9,6 @@ public class Gravity {
 
     private final GameObject obj;
 
-    private float JUMP_FORCE = -15.0f;
     private final float accelerationY = 0.5f;
     private final float MAX_SPEED_Y = 10.0f;
 
