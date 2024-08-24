@@ -21,18 +21,23 @@ public class Block extends GameObject {
         gravity.fall(dt);
         y += velY * dt;
         gravity.applyGravity();
-        if(getCollider().isEnabled()) {
-            getCollider().checkCollision(this);
+
+        if (y < 0) {
+            y = 0;
+            velY = 0;
+        } else if (y + height > main.getHeight()) {
+            y = main.getHeight() - height;
+            velY = 0;
+            getGravity().setOnGround(true);
         }
+
     }
 
     @Override
     protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
         switch (collisionDirection) {
             case TOP -> {
-                setVelY(0);
-                setY(other.getY() - getHeight());
-                getGravity().setOnGround(true);
+                other.getGravity().setOnGround(true);
             }
             case BOTTOM -> {
                 setVelY(0);

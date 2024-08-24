@@ -2,6 +2,7 @@ package fotoh;
 
 import fotoh.game.GameObject;
 import fotoh.game.ID;
+import fotoh.handler.CollisionManager;
 import fotoh.player.Player;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
@@ -33,6 +34,8 @@ public final class Main extends Canvas implements Runnable {
     private final Handler handler = new Handler();
     @Getter
     private final KeyboardEvent event;
+    @Getter
+    CollisionManager collisionManager = new CollisionManager();
 
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
@@ -45,7 +48,7 @@ public final class Main extends Canvas implements Runnable {
         running = true;
         event = new KeyboardEvent(this);
         Player player = new Player(500, 800, 32, 32, this);
-        Block block = new Block(400, 800, 32,32, ID.Block, this);
+        Block block = new Block(400, 800, 32, 32, ID.Block, this);
     }
 
     public static void main(String[] args) {
@@ -87,6 +90,7 @@ public final class Main extends Canvas implements Runnable {
 
     private void tick(float dt) {
         handler.tick(dt);
+        collisionManager.update();
     }
 
     private void render() {

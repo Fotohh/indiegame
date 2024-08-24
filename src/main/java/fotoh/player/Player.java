@@ -41,16 +41,15 @@ public class Player extends LivingEntity {
                 setVelX(0);
                 setX(other.getX() + other.getWidth());
             }
-            case TOP -> {
+            case BOTTOM -> {
                 setVelY(0);
                 setY(other.getY() - getHeight());
                 getGravity().setOnGround(true);
             }
-            case BOTTOM -> {
+            case TOP -> {
                 setVelY(0);
                 setY(other.getY() + other.getHeight());
 
-                //todo not on ground on something cant jump
             }
         }
     }
@@ -60,36 +59,35 @@ public class Player extends LivingEntity {
 
         if(controllable.isEnabled()) handleMovement(dt);
         gravity.applyGravity();
-        if(getCollider().isEnabled()) {
-            getCollider().checkCollision(this);
-        }
 
-        if (y + height > main.getHeight()) {
-            y = main.getHeight() - height;
-            velY = 0;
-            gravity.setOnGround(true);
-        } else if (y < 0) {
-            y = 0;
-            velY = 0;
-        }
-
-        if (x + width > main.getWidth()) {
-            x = main.getWidth() - width;
-            velX = 0;
-        } else if (x < 0) {
+        if (x < 0) {
             x = 0;
             velX = 0;
+        }else if (x + width > main.getWidth()) {
+            x = main.getWidth() - width;
+            velX = 0;
         }
+
+        if (y < 0) {
+            y = 0;
+            velY = 0;
+        } else if (y + height > main.getHeight()) {
+            y = main.getHeight() - height;
+            velY = 0;
+            getGravity().setOnGround(true);
+        }
+
+
     }
 
+    @Override
     protected void handleMovement(float dt) {
-
-        if(d_down && a_down){
+        if (d_down && a_down) {
             velX = 0;
-        } else if(d_down){
+        } else if (d_down) {
             velX += accelerationX * dt;
             if (velX > MAX_SPEED_X) velX = MAX_SPEED_X;
-        } else if(a_down){
+        } else if (a_down) {
             velX -= accelerationX * dt;
             if (velX < -MAX_SPEED_X) velX = -MAX_SPEED_X;
         } else {
@@ -102,15 +100,15 @@ public class Player extends LivingEntity {
             }
         }
 
-        if (w_down) {
-            velY -= gravity.getAccelerationY()  * dt;
-            if (velY < -gravity.getMAX_SPEED_Y()){
-                velY = -gravity.getMAX_SPEED_Y();
-                gravity.fall(dt);
-            }
-        } else {
+        if (w_down && gravity.isOnGround()) {
+            velY -= gravity.getAccelerationY() * dt;
+            if (velY < gravity.getMAX_SPEED_Y()) velY = -gravity.getMAX_SPEED_Y();
+        }else {
             gravity.fall(dt);
         }
+
+        System.out.println("On Ground: " + gravity.isOnGround());
+
 
         y += velY * dt;
         x += velX * dt;
@@ -125,7 +123,6 @@ public class Player extends LivingEntity {
         controllable.keyReleased(KeyEvent.VK_A, _ -> a_down = false);
 
         controllable.keyPressed(KeyEvent.VK_W, _ -> {
-            System.out.println("w pressed");
             if (gravity.isOnGround()) {
                 velY = gravity.getJUMP_FORCE();
                 gravity.setOnGround(false);
@@ -133,6 +130,7 @@ public class Player extends LivingEntity {
             w_down = true;
         });
         controllable.keyReleased(KeyEvent.VK_W, _ -> w_down = false);
+
     }
 
     @Override

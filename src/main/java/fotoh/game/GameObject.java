@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 @Setter
@@ -39,6 +37,7 @@ public abstract class GameObject {
         this.id = id;
         this.main = main;
         this.event = main.getEvent();
+        if(collider.isEnabled()) main.getCollisionManager().register(this);
         main.getGameObjects().add(this);
         main.getHandler().addObject(this, enabled);
         controllable = new Controllable(this);

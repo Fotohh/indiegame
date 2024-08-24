@@ -1,6 +1,5 @@
 package fotoh.handler;
 
-import fotoh.Main;
 import fotoh.game.GameObject;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,18 +49,6 @@ public class Collider {
         return a[0] <= b[1] && a[1] >= b[0];
     }
 
-    public void checkCollision(GameObject A) {
-        if(enabled){
-            for(GameObject object : A.getMain().getGameObjects()){
-                if(object.equals(this)) continue;
-                if(checkSATCollision(A, object)){
-                    if(object.getCollider().getOther() != null)
-                        object.getCollider().getOther().accept(object);
-                }
-            }
-        }
-    }
-
     public boolean checkSATCollision(GameObject A, GameObject B) {
         if(!enabled) return false;
         float[][] axesA = A.getAxes();
@@ -91,7 +78,7 @@ public class Collider {
         if (absDx > absDy) {
             return dx > 0 ? CollisionDirection.LEFT : CollisionDirection.RIGHT;
         } else {
-            return dy > 0 ? CollisionDirection.TOP : CollisionDirection.BOTTOM;
+            return dy > 0 ? CollisionDirection.BOTTOM : CollisionDirection.TOP;
         }
     }
 
