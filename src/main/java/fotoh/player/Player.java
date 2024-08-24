@@ -103,6 +103,7 @@ public class Player extends LivingEntity {
         if (w_down && gravity.isOnGround()) {
             velY -= gravity.getAccelerationY() * dt;
             if (velY < gravity.getMAX_SPEED_Y()) velY = -gravity.getMAX_SPEED_Y();
+            gravity.setOnGround(false);
         }else {
             gravity.fall(dt);
         }
