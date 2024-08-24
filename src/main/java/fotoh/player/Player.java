@@ -108,9 +108,6 @@ public class Player extends LivingEntity {
             gravity.fall(dt);
         }
 
-        System.out.println("On Ground: " + gravity.isOnGround());
-
-
         y += velY * dt;
         x += velX * dt;
     }
