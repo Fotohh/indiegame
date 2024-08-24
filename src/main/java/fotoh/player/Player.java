@@ -41,8 +41,6 @@ public class Player extends LivingEntity {
         boolean left = directions.get(Collider.CollisionDirection.LEFT);
         boolean right = directions.get(Collider.CollisionDirection.RIGHT);
 
-        System.out.println("Can move left: " + canMoveLeft + " Can move right: " + canMoveRight);
-
         for(GameObject o : other) {
 
             if (bottom) {
@@ -77,29 +75,23 @@ public class Player extends LivingEntity {
 
     }
 
+    private void moveLeftRight(){
+        if (d_down) {
+            if(!canMoveRight) return;
+            velX = 5;
+        }
+        if (a_down) {
+            if(!canMoveLeft) return;
+            velX = -5;
+        }else {
+            velX = 0;
+        }
+    }
+
     @Override
     protected void handleMovement(float dt) {
 
-        if (d_down) {
-            if(canMoveRight) {
-                velX += accelerationX * dt;
-                if (velX > MAX_SPEED_X) velX = MAX_SPEED_X;
-            }
-        }
-        if (a_down) {
-            if(canMoveLeft) {
-                velX -= accelerationX * dt;
-                if (velX < -MAX_SPEED_X) velX = -MAX_SPEED_X;
-            }
-        }else {
-            if (velX > 0) {
-                velX -= accelerationX * dt;
-                if (velX < 0) velX = 0;
-            } else if (velX < 0) {
-                velX += accelerationX * dt;
-                if (velX > 0) velX = 0;
-            }
-        }
+        moveLeftRight();
 
         if (w_down) {
             velY -= gravity.getAccelerationY() * dt;
