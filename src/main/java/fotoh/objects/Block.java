@@ -18,7 +18,7 @@ public class Block extends GameObject {
     public void tick(float dt) {
 
         if(controllable.isEnabled()) handleMovement(dt);
-        gravity.fall(dt);
+        if(!gravity.isOnGround()) gravity.fall(dt);
         y += velY * dt;
         gravity.applyGravity();
 
@@ -36,7 +36,11 @@ public class Block extends GameObject {
     @Override
     protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
         switch (collisionDirection) {
-            case TOP -> other.getGravity().setOnGround(true);
+            case TOP -> {
+                other.setVelY(0);
+                other.setY(y - other.getHeight());
+                other.getGravity().setOnGround(true);
+            }
             case BOTTOM -> {
                 velY = 0;
                 y = other.getY() - height;
