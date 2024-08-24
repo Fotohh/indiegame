@@ -69,7 +69,7 @@ public class Collider {
         return a[0] <= b[1] && a[1] >= b[0];
     }
 
-    boolean checkSATCollision(GameObject A, GameObject B) {
+    public boolean checkSATCollision(GameObject A, GameObject B) {
         if(!enabled) return false;
         float[][] axesA = A.getAxes();
         float[][] axesB = B.getAxes();

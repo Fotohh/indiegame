@@ -86,16 +86,22 @@ public abstract class GameObject {
         main.getHandler().replace(this, enabled);
     }
 
-    public void handleCollision(List<GameObject> colliders, ConcurrentHashMap<Collider.CollisionDirection, Boolean> directions){}
-
     public void tick(float dt){
-
-        if(collider.isEnabled()) collider.update(this, main);
-        if(gravity.isEnabled()) gravity.update();
+        if(gravity.isEnabled()) gravity.applyGravity();
         if(controllable.isEnabled()) handleMovement(dt);
+        if(collider.isEnabled()){
+            for(GameObject object : main.getGameObjects()){
+                if(object.equals(this)) continue;
+                if(object.collider.checkSATCollision(this, object)){
+                    collider.getOther().accept(object);
+                }
+            }
+        }
     }
 
     public void initializeControls() {}
+
+    protected abstract void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection);
 
     public abstract void render(Graphics g);
 

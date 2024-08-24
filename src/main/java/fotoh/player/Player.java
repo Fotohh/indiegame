@@ -25,6 +25,7 @@ public class Player extends LivingEntity {
         super(x, y, width, height, ID.Player, main);
         Image image = ResourceManager.getImage(getClass().getResource("/person.png").getFile());
         setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
+        getCollider().setEnabled(true);
         getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
         gravity.setEnabled(true);
         getControllable().setEnabled(true);
@@ -60,9 +61,7 @@ public class Player extends LivingEntity {
         getCollider().checkBounds(this, main);
     }
 
-
-
-    private void handleMovement(float dt) {
+    protected void handleMovement(float dt) {
 
         if(d_down && a_down){
             velX = 0;
@@ -84,7 +83,10 @@ public class Player extends LivingEntity {
 
         if (w_down) {
             velY -= gravity.getAccelerationY()  * dt;
-            if (velY < -gravity.getMAX_SPEED_Y()) velY = -gravity.getMAX_SPEED_Y();
+            if (velY < -gravity.getMAX_SPEED_Y()){
+                velY = -gravity.getMAX_SPEED_Y();
+                gravity.fall(dt);
+            }
         } else {
             gravity.fall(dt);
         }

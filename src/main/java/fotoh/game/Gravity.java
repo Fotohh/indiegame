@@ -11,6 +11,7 @@ public class Gravity {
 
     private final float accelerationY = 0.5f;
     private final float MAX_SPEED_Y = 10.0f;
+    private final float JUMP_FORCE = -10.0f;
 
     public Gravity(GameObject obj) {
         this.obj = obj;
@@ -22,7 +23,7 @@ public class Gravity {
 
     private boolean enabled = true;
 
-    public void update() {
+    public void applyGravity() {
         if (!enabled) return;
         if (onGround) return;
         obj.setVelY(obj.getVelY() + gravity);

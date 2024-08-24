@@ -25,14 +25,6 @@ public class Block extends GameObject {
     @Override
     protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
         switch (collisionDirection) {
-            case LEFT -> {
-                setVelX(0);
-                setX(other.getX() - getWidth());
-            }
-            case RIGHT -> {
-                setVelX(0);
-                setX(other.getX() + other.getWidth());
-            }
             case TOP -> {
                 setVelY(0);
                 setY(other.getY() - getHeight());
