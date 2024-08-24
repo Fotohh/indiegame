@@ -7,10 +7,12 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 
 
+@Setter
 @Getter
 public class Collider {
 
@@ -21,32 +23,22 @@ public class Collider {
         RIGHT
     }
 
-    @Setter
+    private final ConcurrentHashMap<CollisionDirection, Boolean> collisionDirections = new ConcurrentHashMap<>(){{
+        put(CollisionDirection.TOP, false);
+        put(CollisionDirection.BOTTOM, false);
+        put(CollisionDirection.LEFT, false);
+        put(CollisionDirection.RIGHT, false);
+    }};
+    private final List<GameObject> colliders = new ArrayList<>();
     private boolean enabled = true;
-
-    private Consumer<GameObject> other;
-
-    public void onCollide(Consumer<GameObject> other) {
-        this.other = other;
-    }
 
     public void update(GameObject object, Main main){
         if(!enabled) return;
-        checkCollision(object, main.getGameObjects());
         checkBounds(object, main);
+        object.handleCollision(colliders, collisionDirections);
+        updateCollision(object);
     }
 
-    public void checkCollision(GameObject obj, ConcurrentLinkedQueue<GameObject> objects) {
-        for (GameObject other : objects) {
-            if (obj.getObjectUUID().equals(other.getObjectUUID())) continue;
-            if (!other.isEnabled() || !other.getCollider().isEnabled()) continue;
-            if (obj.getCollider().checkSATCollision(obj, other)) {
-                if (obj.getCollider().getOther() != null) {
-                    other.getCollider().getOther().accept(obj);
-                }
-            }
-        }
-    }
 
     private float[] projectPolygonOntoAxis(GameObject obj, float[] axis) {
         float[] vertices = obj.getVertices();
@@ -110,17 +102,41 @@ public class Collider {
         return true;
     }
 
-    public CollisionDirection getCollisionDirection(GameObject self, GameObject other) {
+    private CollisionDirection getCollisionDirection(GameObject self, GameObject other) {
         float dx = other.getX() - self.getX();
         float dy = other.getY() - self.getY();
         float absDx = Math.abs(dx);
         float absDy = Math.abs(dy);
 
         if (absDx > absDy) {
-            return dx > 0 ? CollisionDirection.LEFT : CollisionDirection.RIGHT;
+            return dx > 0 ? CollisionDirection.RIGHT : CollisionDirection.LEFT;
         } else {
-            return dy > 0 ? CollisionDirection.TOP : CollisionDirection.BOTTOM;
+            return dy > 0 ? CollisionDirection.BOTTOM : CollisionDirection.TOP;
         }
+    }
+
+    public void updateCollision(GameObject current){
+        for(CollisionDirection direction : CollisionDirection.values()){
+            if(collisionDirections.containsKey(direction)){
+                collisionDirections.replace(direction, isCollidingInDirection(current, current.getMain().getGameObjects(), direction));
+            }else collisionDirections.put(direction, isCollidingInDirection(current, current.getMain().getGameObjects(), direction));
+        }
+    }
+
+    private boolean isCollidingInDirection(GameObject current, ConcurrentLinkedQueue<GameObject> objects, CollisionDirection direction) {
+        for (GameObject other : objects) {
+            if (current.getObjectUUID().equals(other.getObjectUUID())) continue;
+            if (!other.isEnabled() || !other.getCollider().isEnabled()) continue;
+            if (checkSATCollision(current, other)) {
+                if (getCollisionDirection(current, other) == direction) {
+                    if(!colliders.contains(other)) colliders.add(other);
+                    return true;
+                }
+            }else{
+                colliders.remove(other);
+            }
+        }
+        return false;
     }
 
 }

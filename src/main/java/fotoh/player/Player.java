@@ -12,6 +12,7 @@ import lombok.Getter;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 public class Player extends LivingEntity {
@@ -20,38 +21,58 @@ public class Player extends LivingEntity {
     private final float MAX_SPEED_X = 10.0f;
     protected boolean d_down = false;
     protected boolean a_down = false;
+    private boolean canMoveLeft = true;
+    private boolean canMoveRight = true;
 
 
     public Player(float x, float y, float width, float height, Main main) {
         super(x, y, width, height, ID.Player, main);
         Image image = ResourceManager.getImage(getClass().getResource("/person.png").getFile());
-        setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
-        getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
+        entityImage = image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT);
         gravity.setEnabled(true);
-        getControllable().setEnabled(true);
+        controllable.setEnabled(true);
     }
 
     @Override
-    protected void handleCollision(GameObject other, Collider.CollisionDirection direction) {
-        gravity.setOnGround(false);
-        switch (direction) {
-            case LEFT -> {
-                velX = 0;
-                x = other.getX() - width;
-            }
-            case RIGHT -> {
-                velX = 0;
-                x = other.getX() + other.getWidth();
-            }
-            case TOP -> {
+    public void handleCollision(List<GameObject> other, ConcurrentHashMap<Collider.CollisionDirection, Boolean> directions) {
+
+        boolean bottom = directions.get(Collider.CollisionDirection.BOTTOM);
+        boolean top = directions.get(Collider.CollisionDirection.TOP);
+        boolean left = directions.get(Collider.CollisionDirection.LEFT);
+        boolean right = directions.get(Collider.CollisionDirection.RIGHT);
+
+        System.out.println("Can move left: " + canMoveLeft + " Can move right: " + canMoveRight);
+
+        for(GameObject o : other) {
+
+            if (bottom) {
                 velY = 0;
-                y = other.getY() - height;
+                y = o.getY() + height;
             }
-            case BOTTOM -> {
+            gravity.setOnGround(bottom);
+
+            if (top) {
                 velY = 0;
-                y = other.getY() + other.getHeight();
-                gravity.setOnGround(true);
+                y = o.getY() - height;
             }
+
+            if (left) {
+                velX = 0;
+                x = o.getX() + o.getWidth();
+                canMoveLeft = false;
+            } else {
+                canMoveLeft = true;
+            }
+
+
+            if (right) {
+                velX = 0;
+                x = o.getX() - o.getWidth();
+                canMoveRight = false;
+            } else {
+                canMoveRight = true;
+            }
+
         }
 
     }
@@ -59,13 +80,18 @@ public class Player extends LivingEntity {
     @Override
     protected void handleMovement(float dt) {
 
-        if(d_down){
-            velX += accelerationX * dt;
-            if (velX > MAX_SPEED_X) velX = MAX_SPEED_X;
-        } else if(a_down){
-            velX -= accelerationX * dt;
-            if (velX < -MAX_SPEED_X) velX = -MAX_SPEED_X;
-        } else {
+        if (d_down) {
+            if(canMoveRight) {
+                velX += accelerationX * dt;
+                if (velX > MAX_SPEED_X) velX = MAX_SPEED_X;
+            }
+        }
+        if (a_down) {
+            if(canMoveLeft) {
+                velX -= accelerationX * dt;
+                if (velX < -MAX_SPEED_X) velX = -MAX_SPEED_X;
+            }
+        }else {
             if (velX > 0) {
                 velX -= accelerationX * dt;
                 if (velX < 0) velX = 0;
@@ -76,7 +102,7 @@ public class Player extends LivingEntity {
         }
 
         if (w_down) {
-            velY -= gravity.getAccelerationY()  * dt;
+            velY -= gravity.getAccelerationY() * dt;
             if (velY < -gravity.getMAX_SPEED_Y()) velY = -gravity.getMAX_SPEED_Y();
         } else {
             gravity.fall(dt);
@@ -95,11 +121,11 @@ public class Player extends LivingEntity {
         controllable.keyReleased(KeyEvent.VK_A, _ -> a_down = false);
 
         controllable.keyPressed(KeyEvent.VK_W, _ -> {
+            w_down = true;
             if (gravity.isOnGround()) {
                 velY = gravity.getJUMP_FORCE();
                 gravity.setOnGround(false);
             }
-            w_down = true;
         });
         controllable.keyReleased(KeyEvent.VK_W, _ -> w_down = false);
     }

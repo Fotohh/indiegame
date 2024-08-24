@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 @Setter
@@ -21,7 +23,7 @@ public abstract class GameObject {
     private final UUID objectUUID;
     private boolean isVisible = true;
     private boolean enabled = true;
-    private Image entityImage;
+    protected Image entityImage;
     protected final ID id;
     protected final Main main;
     protected boolean w_down = false;
@@ -82,9 +84,10 @@ public abstract class GameObject {
         main.getHandler().replace(this, enabled);
     }
 
-    protected void handleCollision(GameObject other, Collider.CollisionDirection direction){}
+    public void handleCollision(List<GameObject> colliders, ConcurrentHashMap<Collider.CollisionDirection, Boolean> directions){}
 
     public void tick(float dt){
+
         if(collider.isEnabled()) collider.update(this, main);
         if(gravity.isEnabled()) gravity.update();
         if(controllable.isEnabled()) handleMovement(dt);
