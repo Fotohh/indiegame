@@ -16,10 +16,14 @@ public class Block extends GameObject {
 
     @Override
     public void tick(float dt) {
+
+        if(controllable.isEnabled()) handleMovement(dt);
         gravity.fall(dt);
         y += velY * dt;
         gravity.applyGravity();
-        getCollider().checkBounds(this, main);
+        if(getCollider().isEnabled()) {
+            getCollider().checkCollision(this);
+        }
     }
 
     @Override

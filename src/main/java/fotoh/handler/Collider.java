@@ -42,31 +42,24 @@ public class Collider {
         return new float[]{min, max};
     }
 
-    public void checkBounds(GameObject o, Main main){
-        if (o.getX() < 0) {
-            o.setX(0);
-            o.setVelX(0);
-        } else if (o.getX() + o.getWidth() > main.getWidth()) {
-            o.setX(main.getWidth() - o.getWidth());
-            o.setVelX(0);
-        }
-
-        if (o.getY() < 0) {
-            o.setY(0);
-            o.setVelY(0);
-        } else if (o.getY() + o.getHeight() > main.getHeight()) {
-            o.setY(main.getHeight() - o.getHeight());
-            o.setVelY(0);
-            o.getGravity().setOnGround(true);
-        }
-    }
-
     private float dotProduct(float x, float y, float[] axis) {
         return x * axis[0] + y * axis[1];
     }
 
     private boolean isOverlapping(float[] a, float[] b) {
         return a[0] <= b[1] && a[1] >= b[0];
+    }
+
+    public void checkCollision(GameObject A) {
+        if(enabled){
+            for(GameObject object : A.getMain().getGameObjects()){
+                if(object.equals(this)) continue;
+                if(checkSATCollision(A, object)){
+                    if(object.getCollider().getOther() != null)
+                        object.getCollider().getOther().accept(object);
+                }
+            }
+        }
     }
 
     public boolean checkSATCollision(GameObject A, GameObject B) {

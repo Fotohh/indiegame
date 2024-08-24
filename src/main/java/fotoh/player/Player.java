@@ -25,7 +25,6 @@ public class Player extends LivingEntity {
         super(x, y, width, height, ID.Player, main);
         Image image = ResourceManager.getImage(getClass().getResource("/person.png").getFile());
         setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
-        getCollider().setEnabled(true);
         getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
         gravity.setEnabled(true);
         getControllable().setEnabled(true);
@@ -50,15 +49,37 @@ public class Player extends LivingEntity {
             case BOTTOM -> {
                 setVelY(0);
                 setY(other.getY() + other.getHeight());
+
+                //todo not on ground on something cant jump
             }
         }
     }
 
     @Override
     public void tick(float dt) {
-        handleMovement(dt);
+
+        if(controllable.isEnabled()) handleMovement(dt);
         gravity.applyGravity();
-        getCollider().checkBounds(this, main);
+        if(getCollider().isEnabled()) {
+            getCollider().checkCollision(this);
+        }
+
+        if (y + height > main.getHeight()) {
+            y = main.getHeight() - height;
+            velY = 0;
+            gravity.setOnGround(true);
+        } else if (y < 0) {
+            y = 0;
+            velY = 0;
+        }
+
+        if (x + width > main.getWidth()) {
+            x = main.getWidth() - width;
+            velX = 0;
+        } else if (x < 0) {
+            x = 0;
+            velX = 0;
+        }
     }
 
     protected void handleMovement(float dt) {
@@ -104,6 +125,7 @@ public class Player extends LivingEntity {
         controllable.keyReleased(KeyEvent.VK_A, _ -> a_down = false);
 
         controllable.keyPressed(KeyEvent.VK_W, _ -> {
+            System.out.println("w pressed");
             if (gravity.isOnGround()) {
                 velY = gravity.getJUMP_FORCE();
                 gravity.setOnGround(false);

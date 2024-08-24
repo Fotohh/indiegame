@@ -86,18 +86,7 @@ public abstract class GameObject {
         main.getHandler().replace(this, enabled);
     }
 
-    public void tick(float dt){
-        if(gravity.isEnabled()) gravity.applyGravity();
-        if(controllable.isEnabled()) handleMovement(dt);
-        if(collider.isEnabled()){
-            for(GameObject object : main.getGameObjects()){
-                if(object.equals(this)) continue;
-                if(object.collider.checkSATCollision(this, object)){
-                    collider.getOther().accept(object);
-                }
-            }
-        }
-    }
+    public abstract void tick(float dt);
 
     public void initializeControls() {}
 

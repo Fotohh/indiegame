@@ -47,7 +47,6 @@ public class Controllable {
     if (!gameObject.isEnabled() || !enabled) return;
     gameObject.getEvent().add(keyEvent -> {
       for (Control control : keyPressed) {
-
         if (keyEvent.getKeyCode() == control.key) {
           control.event.accept(true);
         }
