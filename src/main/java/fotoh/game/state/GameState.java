@@ -26,8 +26,8 @@ public abstract class GameState {
                     public void run() {
                         main.setState(new Menu(main));
                     }
-                }, 1000 * 3);
-                graphic.addAnimation(new FadeInOut(5*1000,5*1000,5*1000, graphic));
+                }, 1000 * 10);
+                graphic.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic));
             }
 
             private static final TextGraphic graphic = new TextGraphic("Presented By", new Font("Comic-Sans", Font.PLAIN, 75));
