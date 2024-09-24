@@ -14,6 +14,13 @@ public class ButtonGraphic {
     private final JButton button;
     private final ButtonGraphic instance;
 
+    /*
+
+    Might just make my own button since the JFrame instance is a little weird, I can eventually switch raylib ( idk if it exists)
+    Will fix this eventually at some point.
+    todo Doesn't work...
+     */
+
     public ButtonGraphic(String text, int x, int y, JFrame frame){
         this.text = text;
         this.instance = this;

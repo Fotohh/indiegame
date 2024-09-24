@@ -17,9 +17,7 @@ public class Menu extends GameState{
     @Override
     public GameState onEnable() {
         Main.LOGGER.info("Entered Menu State");
-        graphic.onButtonClick(buttonGraphic -> {
-            System.out.println("Button Was Clicked. SKIBIDI");
-        });
+        graphic.onButtonClick(_ -> System.out.println("Button Was Clicked. BIDIBIDI"));
         return this;
     }
 
