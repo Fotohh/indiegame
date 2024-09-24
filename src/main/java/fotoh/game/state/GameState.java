@@ -26,7 +26,7 @@ public abstract class GameState {
                     public void run() {
                         main.setState(new Menu(main));
                     }
-                }, 1000 * 10);
+                }, 1000 * 8);
                 graphic.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic));
             }
 
@@ -35,7 +35,7 @@ public abstract class GameState {
             @Override
             public void render(Graphics g) {
                 g.setColor(Color.BLACK);
-                graphic.draw(g, 300, 250);
+                graphic.draw(g.create(), 300, 250);
                 g.drawString("Xaxis Studios", 500, 350);
                 g.setFont(Main.DEFAULT_FONT);
             }
