@@ -13,8 +13,6 @@ import java.util.UUID;
 @Setter
 public abstract class GameObject {
 
-
-
     protected float velX, velY, x, y, width, height;
     protected final Gravity gravity = new Gravity(this);
     protected final Controllable controllable;

@@ -1,22 +1,23 @@
 package fotoh;
 
 import fotoh.game.GameObject;
-import fotoh.game.ID;
+import fotoh.game.state.GameState;
 import fotoh.handler.CollisionManager;
-import fotoh.player.Player;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
 import fotoh.window.Window;
 import lombok.Getter;
-import fotoh.objects.Block;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Logger;
 
 public final class Main extends Canvas implements Runnable {
+
+    public static Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 12);
 
     private boolean running;
     private final Thread thread;
@@ -24,6 +25,11 @@ public final class Main extends Canvas implements Runnable {
     private static final int HEIGHT = 960;
 
     private static final boolean DEBUG = true;
+
+    public static final Logger LOGGER = Logger.getLogger("Main-Thread", null);
+
+    @Getter
+    private final Timer timer = new Timer("Main-Thread-Timer");
 
     @Getter
     private final ConcurrentLinkedQueue<GameObject> gameObjects = new ConcurrentLinkedQueue<>();
@@ -37,7 +43,9 @@ public final class Main extends Canvas implements Runnable {
     @Getter
     CollisionManager collisionManager = new CollisionManager();
 
-    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    @Setter
+    @Getter
+    private GameState state = GameState.DEFAULT(this);
 
     private int fps;
     private double mX, mY;
@@ -47,9 +55,10 @@ public final class Main extends Canvas implements Runnable {
         thread.start();
         running = true;
         event = new KeyboardEvent(this);
-        Block block = new Block(400, 700, 32, 32, ID.Block, this);
-        Block block2 = new Block(410, 500, 32, 32, ID.Block, this);
-        Player player = new Player(500, 500, 32, 32, this);
+    }
+
+    public void onDisable(){
+        state.onDisable();
     }
 
     public static void main(String[] args) {
@@ -92,6 +101,7 @@ public final class Main extends Canvas implements Runnable {
     private void tick(float dt) {
         handler.tick(dt);
         collisionManager.update();
+        state.tick(dt);
     }
 
     private void render() {
@@ -108,6 +118,7 @@ public final class Main extends Canvas implements Runnable {
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         handler.render(g);
+        state.render(g);
 
         if (DEBUG) {
             g.setColor(Color.BLACK);
