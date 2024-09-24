@@ -45,7 +45,7 @@ public final class Main extends Canvas implements Runnable {
 
     @Setter
     @Getter
-    private GameState state = GameState.DEFAULT(this);
+    private GameState state = GameState.DEFAULT(this).onEnable();
 
     private int fps;
     private double mX, mY;

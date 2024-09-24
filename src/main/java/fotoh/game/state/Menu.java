@@ -1,6 +1,7 @@
 package fotoh.game.state;
 
 import fotoh.Main;
+import fotoh.visuals.item.ButtonGraphic;
 
 import java.awt.*;
 
@@ -8,16 +9,19 @@ public class Menu extends GameState{
 
     public Menu(Main main) {
         super(main);
+        graphic = new ButtonGraphic("Random Button", 300 , 200, main.getWindow().getJFrame());
     }
+
+    private final ButtonGraphic graphic;
 
     @Override
-    public void onEnable() {
+    public GameState onEnable() {
         Main.LOGGER.info("Entered Menu State");
+        graphic.onButtonClick(buttonGraphic -> {
+            System.out.println("Button Was Clicked. SKIBIDI");
+        });
+        return this;
     }
-
-    int startAngle = 200;
-    int endAngle = 700;
-    int alpha  = 100;
 
     @Override
     public void render(Graphics g) {
@@ -26,10 +30,11 @@ public class Menu extends GameState{
         g.setColor(Color.BLUE);
         g.fillRect(250, 250, 150, 150);
         g.setColor(Color.GREEN);
-        g.fillArc(250,250, 400, 400, startAngle, endAngle);
-        g.setColor(new Color(0,0,0,alpha));
+        g.fillArc(250,250, 400, 400, 0, 360);
+        g.setColor(new Color(0,0,0,255));
         g.setFont(new Font("Arial", Font.BOLD, 55));
         g.drawString("RANDOM GAME", 105 , 385);
+
         g.setFont(Main.DEFAULT_FONT);
     }
 
@@ -40,8 +45,5 @@ public class Menu extends GameState{
 
     @Override
     public void tick(float dt) {
-        if (alpha > 1) alpha--;
-        startAngle -= (int) (startAngle / (dt * .5));
-        endAngle += (int) (dt - (float) startAngle / endAngle*2);
     }
 }

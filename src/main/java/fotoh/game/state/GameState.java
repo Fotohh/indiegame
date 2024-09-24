@@ -13,21 +13,21 @@ public abstract class GameState {
 
     public GameState(Main main){
         this.main = main;
-        onEnable();
     }
 
     public static GameState DEFAULT(Main main){
         return new GameState(main) {
             @Override
-            public void onEnable() {
+            public GameState onEnable() {
                 Main.LOGGER.info("GameState enabled!");
                 main.getTimer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        main.setState(new Menu(main));
+                        main.setState(new Menu(main).onEnable());
                     }
                 }, 1000 * 8);
                 graphic.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic));
+                return this;
             }
 
             private static final TextGraphic graphic = new TextGraphic("Presented By", new Font("Comic-Sans", Font.PLAIN, 75));
@@ -52,7 +52,7 @@ public abstract class GameState {
         };
     }
 
-    public abstract void onEnable();
+    public abstract GameState onEnable();
     public abstract void render(Graphics g);
     public abstract void onDisable();
     public abstract void tick(float dt);

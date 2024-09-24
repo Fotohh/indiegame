@@ -30,11 +30,11 @@ public class FadeInOut extends Animation {
     @Override
     public void run(){
         timer.scheduleAtFixedRate(new TimerTask() {
-            final int fis = (int) (fadeIn / 100);
+            final int fis = (int) (fadeIn / 255);
             int counter = fis;
             @Override
             public void run() {
-                if(item.alpha < 100) {
+                if(item.alpha < 255) {
                     if (counter > 0) counter--;
                     else {
                         counter = fis;
@@ -54,7 +54,6 @@ public class FadeInOut extends Animation {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                item.alpha = 100;
                 stay--;
                 if(stay <= 0) {
                     timer.cancel();
@@ -66,7 +65,7 @@ public class FadeInOut extends Animation {
     private void fadeOut(){
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            final int fos = (int) (fadeOut / 100);
+            final int fos = (int) (fadeOut / 255);
             int c = fos;
             @Override
             public void run() {

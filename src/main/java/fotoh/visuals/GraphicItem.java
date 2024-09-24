@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public abstract class GraphicItem {
 
     protected int r,g,b = 0;
-    protected int alpha = 100;
+    protected int alpha = 255;
 
     protected ConcurrentLinkedQueue<Animation> animations = new ConcurrentLinkedQueue<>();
 
