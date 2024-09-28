@@ -9,7 +9,7 @@ public class Menu extends GameState{
 
     public Menu(Main main) {
         super(main);
-        graphic = new ButtonGraphic("Random Button", 300 , 200, main.getWindow().getJFrame());
+        graphic = new ButtonGraphic("Random Button", 300 , 200, main, 200, 400);
     }
 
     private final ButtonGraphic graphic;

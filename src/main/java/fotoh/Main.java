@@ -3,6 +3,7 @@ package fotoh;
 import fotoh.game.GameObject;
 import fotoh.game.state.GameState;
 import fotoh.handler.CollisionManager;
+import fotoh.listener.ClickListener;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
 import fotoh.window.Window;
@@ -30,6 +31,9 @@ public final class Main extends Canvas implements Runnable {
 
     @Getter
     private final Timer timer = new Timer("Main-Thread-Timer");
+
+    @Getter
+    private final ClickListener clickListener = new ClickListener();
 
     @Getter
     private final ConcurrentLinkedQueue<GameObject> gameObjects = new ConcurrentLinkedQueue<>();

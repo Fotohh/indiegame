@@ -1,8 +1,10 @@
 package fotoh.visuals.item;
 
+import fotoh.Main;
+import fotoh.listener.ClickType;
+import fotoh.listener.Interactable;
 import lombok.Getter;
 
-import javax.swing.*;
 import java.util.function.Consumer;
 
 @Getter
@@ -11,30 +13,26 @@ public class ButtonGraphic {
     private final int x,y;
     private final String text;
     protected Consumer<ButtonGraphic> consumer;
-    private final JButton button;
-    private final ButtonGraphic instance;
+    private int x1,x2,y1,y2;
+    private final Interactable interactable;
 
-    /*
-
-    Might just make my own button since the JFrame instance is a little weird, I can eventually switch raylib ( idk if it exists)
-    Will fix this eventually at some point.
-    todo Doesn't work...
-     */
-
-    public ButtonGraphic(String text, int x, int y, JFrame frame){
+    //figure out where the x, and y, are drawn, so I can calculate the vertices of the box therefore calculating whether the event should be called in
+    //click listener or not
+    public ButtonGraphic(String text, int x, int y, Main main, int width, int height){
         this.text = text;
-        this.instance = this;
         this.x = x;
         this.y = y;
-        button = new JButton(text);
-        button.setLocation(x,y);
+        interactable = new Interactable(ClickType.PRESSED, main.getClickListener());
         buttonClick();
-        frame.add(button);
-        button.setVisible(true);
+
+        x1 = x;
+        y1 = y;
     }
 
     private void buttonClick(){
-        button.addActionListener(_ -> consumer.accept(instance));
+        interactable.tick(event -> {
+
+        });
     }
 
     public void onButtonClick(Consumer<ButtonGraphic> consumer){
