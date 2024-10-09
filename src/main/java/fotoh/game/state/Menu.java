@@ -1,6 +1,9 @@
 package fotoh.game.state;
 
 import fotoh.Main;
+import fotoh.game.ID;
+import fotoh.objects.Block;
+import fotoh.player.Player;
 import fotoh.visuals.item.ButtonGraphic;
 
 import java.awt.*;
@@ -18,6 +21,8 @@ public class Menu extends GameState{
     public GameState onEnable() {
         Main.LOGGER.info("Entered Menu State");
         graphic.onButtonClick(_ -> System.out.println("Button Was Clicked. BIDIBIDI"));
+        new Player(200, 300, 50, 50, main);
+        new Block(200, 200, 50, 50, ID.Block, main);
         return this;
     }
 

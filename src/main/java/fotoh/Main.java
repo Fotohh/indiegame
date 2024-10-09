@@ -22,8 +22,8 @@ public final class Main extends Canvas implements Runnable {
 
     private boolean running;
     private final Thread thread;
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 960;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
 
     private static final boolean DEBUG = true;
 

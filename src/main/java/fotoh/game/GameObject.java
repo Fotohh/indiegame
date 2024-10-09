@@ -27,6 +27,7 @@ public abstract class GameObject {
     protected boolean w_down = false;
 
     public GameObject(float x, float y, float w, float h, ID id, Main main) {
+        controllable = new Controllable(this);
         this.x = x;
         this.y = y;
         this.width = w;
@@ -38,7 +39,7 @@ public abstract class GameObject {
         if(collider.isEnabled()) main.getCollisionManager().register(this);
         main.getGameObjects().add(this);
         main.getHandler().addObject(this, enabled);
-        controllable = new Controllable(this);
+
         initializeControls();
     }
 
