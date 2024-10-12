@@ -52,7 +52,7 @@ public class Block extends GameObject {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.BLUE);
-        g.fillArc((int) x, (int) y, (int) width, (int) height, 20, 75);
+        g.fillArc((int) x, (int) y, (int) width, (int) height, 0, 360);
     }
 
 }

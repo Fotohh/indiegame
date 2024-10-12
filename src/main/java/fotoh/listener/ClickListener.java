@@ -24,8 +24,9 @@ public class ClickListener {
     public void tick(MouseEvent event, ClickType clickType){
         switch (clickType) {
             case PRESSED -> {
-                for (Interactable interactable : pressed)
+                for (Interactable interactable : pressed) {
                     if (interactable.call != null) interactable.call.accept(event);
+                }
             }
             case RELEASED -> {
                 for (Interactable interactable : released)
