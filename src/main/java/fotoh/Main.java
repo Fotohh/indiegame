@@ -4,6 +4,8 @@ import fotoh.game.GameObject;
 import fotoh.game.state.GameState;
 import fotoh.handler.CollisionManager;
 import fotoh.listener.ClickListener;
+import fotoh.listener.ClickType;
+import fotoh.log.GameLogger;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Handler;
 import fotoh.window.Window;
@@ -11,6 +13,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -27,7 +32,7 @@ public final class Main extends Canvas implements Runnable {
 
     private static final boolean DEBUG = true;
 
-    public static final Logger LOGGER = Logger.getLogger("Main-Thread", null);
+    public static final GameLogger LOGGER = new GameLogger("Main-Thread", null);
 
     @Getter
     private final Timer timer = new Timer("Main-Thread-Timer");
@@ -39,7 +44,7 @@ public final class Main extends Canvas implements Runnable {
     private final ConcurrentLinkedQueue<GameObject> gameObjects = new ConcurrentLinkedQueue<>();
 
     @Getter
-    private final Window window = new Window(WIDTH, HEIGHT, "Indie Game", this);
+    private final Window window;
     @Getter
     private final Handler handler = new Handler();
     @Getter
@@ -55,6 +60,25 @@ public final class Main extends Canvas implements Runnable {
     private double mX, mY;
 
     public Main() {
+        window = new Window(WIDTH, HEIGHT, "Indie Game", this);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                getClickListener().tick(e, ClickType.PRESSED);
+                super.mousePressed(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                getClickListener().tick(e, ClickType.RELEASED);
+                super.mouseReleased(e);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                getClickListener().tick(e, ClickType.HOVER);
+            }
+        });
         thread = new Thread(this);
         thread.start();
         running = true;

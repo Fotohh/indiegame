@@ -7,12 +7,13 @@ import fotoh.player.Player;
 import fotoh.visuals.item.ButtonGraphic;
 
 import java.awt.*;
+import java.util.logging.Level;
 
 public class Menu extends GameState{
 
     public Menu(Main main) {
         super(main);
-        graphic = new ButtonGraphic("Random Button", 300 , 200, main, 200, 400);
+        graphic = new ButtonGraphic("PLAY", 300 , 200, main, 400, 200, 20);
     }
 
     private final ButtonGraphic graphic;
@@ -37,6 +38,7 @@ public class Menu extends GameState{
         g.setColor(new Color(0,0,0,255));
         g.setFont(new Font("Arial", Font.BOLD, 55));
         g.drawString("RANDOM GAME", 105 , 385);
+        graphic.render(g);
 
         g.setFont(Main.DEFAULT_FONT);
     }

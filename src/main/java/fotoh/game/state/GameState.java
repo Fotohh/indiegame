@@ -30,7 +30,7 @@ public abstract class GameState {
                 return this;
             }
 
-            private static final TextGraphic graphic = new TextGraphic("Presented By", new Font("Comic-Sans", Font.PLAIN, 75));
+            private static final TextGraphic graphic = new TextGraphic("Presented By", new Font("Comic-Sans", Font.PLAIN, 75), Color.BLACK);
 
             @Override
             public void render(Graphics g) {
