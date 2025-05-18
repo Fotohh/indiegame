@@ -28,7 +28,7 @@ public class Block extends GameObject {
         } else if (y + height > main.getHeight()) {
             y = main.getHeight() - height;
             velY = 0;
-            getGravity().setOnGround(true);
+            gravity.setOnGround(true);
         }
 
     }

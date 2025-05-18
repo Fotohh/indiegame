@@ -11,10 +11,11 @@ import java.util.function.Consumer;
 public class Collider {
 
     public enum CollisionDirection {
-        TOP,
-        BOTTOM,
-        LEFT,
-        RIGHT
+            TOP,
+            BOTTOM,
+            LEFT,
+            RIGHT,
+            NONE;
     }
 
     @Setter
@@ -76,7 +77,7 @@ public class Collider {
         float absDy = Math.abs(dy);
 
         if (absDx > absDy) {
-            return dx > 0 ? CollisionDirection.LEFT : CollisionDirection.RIGHT;
+             return dx > 0 ? CollisionDirection.LEFT : CollisionDirection.RIGHT;
         } else {
             return dy > 0 ? CollisionDirection.BOTTOM : CollisionDirection.TOP;
         }

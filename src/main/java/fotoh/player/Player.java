@@ -8,9 +8,11 @@ import fotoh.handler.Collider;
 import fotoh.util.KeyboardEvent;
 import fotoh.util.ResourceManager;
 import lombok.Getter;
+import org.yaml.snakeyaml.Yaml;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 @Getter
 public class Player extends LivingEntity {
@@ -34,23 +36,19 @@ public class Player extends LivingEntity {
     protected void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection) {
         switch (collisionDirection) {
             case LEFT -> {
-                setVelX(0);
-                setX(other.getX() - getWidth());
+                velX = 0;
+                x = other.getX() - width;
             }
             case RIGHT -> {
-                setVelX(0);
-                setX(other.getX() + other.getWidth());
+                velX = 0;
+                x = other.getX() + width;
             }
             case BOTTOM -> {
-                setVelY(0);
-                setY(other.getY() - getHeight());
-                getGravity().setOnGround(true);
+                velY = 0;
+                y = other.getY() - height;
+                gravity.setOnGround(true);
             }
-            case TOP -> {
-                setVelY(0);
-                setY(other.getY() + other.getHeight());
-
-            }
+            case TOP -> y = other.getY() + height;
         }
     }
 
@@ -74,10 +72,8 @@ public class Player extends LivingEntity {
         } else if (y + height > main.getHeight()) {
             y = main.getHeight() - height;
             velY = 0;
-            getGravity().setOnGround(true);
+            gravity.setOnGround(true);
         }
-
-
     }
 
     @Override

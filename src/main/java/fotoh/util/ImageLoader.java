@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageLoader {
+class ImageLoader {
 
     protected static Image loadImage(String filename){
         return bufferImage(filename);

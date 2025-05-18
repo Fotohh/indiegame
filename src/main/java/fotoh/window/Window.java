@@ -1,9 +1,6 @@
 package fotoh.window;
 
 import fotoh.Main;
-import fotoh.listener.ClickListener;
-import fotoh.listener.ClickType;
-import fotoh.util.KeyboardEvent;
 
 import javax.swing.*;
 import java.awt.event.*;

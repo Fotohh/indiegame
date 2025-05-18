@@ -1,5 +1,6 @@
 package fotoh;
 
+import fotoh.file.YML;
 import fotoh.game.GameObject;
 import fotoh.game.state.GameState;
 import fotoh.handler.CollisionManager;
@@ -17,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
@@ -86,11 +88,17 @@ public final class Main extends Canvas implements Runnable {
     }
 
     public void onDisable(){
+        running = false;
         state.onDisable();
+        window.getJFrame().setVisible(false);
+        window.getJFrame().dispose();
+        System.exit(0);
     }
 
     public static void main(String[] args) {
-        new Main();
+        //new Main();
+        YML yaml = new YML(new File(Main.class.getResource("/wtf.yml").getFile()));
+
     }
 
     public void run() {
@@ -134,12 +142,14 @@ public final class Main extends Canvas implements Runnable {
 
     private void render() {
 
+        if(!running) return;
+
         BufferStrategy bufferStrategy = getBufferStrategy();
         if (bufferStrategy == null) {
             createBufferStrategy(3);
             return;
         }
-
+        if(bufferStrategy.getDrawGraphics() == null) return;
         Graphics g = bufferStrategy.getDrawGraphics();
 
         g.setColor(Color.WHITE);

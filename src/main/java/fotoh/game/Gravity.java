@@ -32,6 +32,7 @@ public class Gravity {
 
     public void fall(float dt){
         if(!enabled) return;
+        if(onGround) return;
         if (getObj().getVelY() > 0) {
             getObj().setVelY(getObj().getVelY() - accelerationY * dt);
             if (getObj().getVelY() < 0) getObj().setVelY(0);
