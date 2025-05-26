@@ -50,6 +50,9 @@ public class Player extends LivingEntity {
             }
             case TOP -> y = other.getY() + height;
         }
+        if(!getCollider().checkSATCollision(this, other)) {
+            gravity.setOnGround(false);
+        }
     }
 
     @Override

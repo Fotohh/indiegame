@@ -98,7 +98,7 @@ public final class Main extends Canvas implements Runnable {
     public static void main(String[] args) {
         //new Main();
         YML yaml = new YML(new File(Main.class.getResource("/wtf.yml").getFile()));
-
+        System.out.println(yaml.getSection("ok").getSection("kay").getList("ok"));
     }
 
     public void run() {

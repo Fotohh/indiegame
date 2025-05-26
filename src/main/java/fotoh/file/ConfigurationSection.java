@@ -3,7 +3,9 @@ package fotoh.file;
 import lombok.Getter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ConfigurationSection {
 
@@ -21,8 +23,12 @@ public class ConfigurationSection {
         this.name = name;
     }
 
-    protected Map<String, Object> getKeys() {
+    protected Map<String, Object> getSectionKeys() {
         return keys;
+    }
+
+    public Set<String> getKeys() {
+        return keys.keySet();
     }
 
     protected Map<String, Object> getParentKeys() {
@@ -48,12 +54,44 @@ public class ConfigurationSection {
         return new ConfigurationSection(sectionName, parentSection.keys, yml);
     }
 
+    public String getString(String path) {
+        return (String) keys.get(path);
+    }
+
+    public boolean getBoolean(String path) {
+        return (boolean) keys.get(path);
+    }
+
+    public int getInteger(String path) {
+        return (int) keys.get(path);
+    }
+
+    public double getDouble(String path) {
+        return (double) keys.get(path);
+    }
+
+    public long getLong(String path) {
+        return (long) keys.get(path);
+    }
+
+    public Object getObject(String path) {
+        return keys.get(path);
+    }
+
+    public List<?> getList(String path) {
+        return (List<?>) keys.get(path);
+    }
+
+    public float getFloat(String path) {
+        return (float) keys.get(path);
+    }
+
     public ConfigurationSection getSection(String sectionName) {
         Map<String, Object> values;
-        if(!parent.containsKey(sectionName)) return null;
-        if(!(parent.get(sectionName) instanceof Map<?,?>)) return null;
+        if(!keys.containsKey(sectionName)) return null;
+        if(!(keys.get(sectionName) instanceof Map<?,?>)) return null;
         try {
-            values = (Map<String, Object>) parent.get(sectionName);
+            values = (Map<String, Object>) keys.get(sectionName);
         }catch(Exception e) {
             return null;
         }

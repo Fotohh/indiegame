@@ -5,7 +5,9 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class YML {
 
@@ -34,38 +36,41 @@ public class YML {
         }
     }
 
+    public Set<String> getKeys() {
+        return keys.keySet();
+    }
+
     public String getString(String path) {
         return (String) keys.get(path);
     }
 
-    public void getBoolean(String path) {
-
+    public boolean getBoolean(String path) {
+        return (boolean) keys.get(path);
     }
 
-    public void getInteger(String path) {
-
+    public int getInteger(String path) {
+        return (int) keys.get(path);
     }
 
-    public void getDouble(String path) {
-
+    public double getDouble(String path) {
+        return (double) keys.get(path);
     }
 
-    public void getLong(String path) {
-
+    public long getLong(String path) {
+        return (long) keys.get(path);
     }
 
-    public void getObject(String path) {
-
+    public Object getObject(String path) {
+        return keys.get(path);
     }
 
-    public void getList(String path) {
-
+    public List<?> getList(String path) {
+        return (List<?>) keys.get(path);
     }
 
-    public void getFloat(String path) {
-
+    public float getFloat(String path) {
+        return (float) keys.get(path);
     }
-
 
     public YML(File parent, String filename) {
         this(new File(parent, filename));
