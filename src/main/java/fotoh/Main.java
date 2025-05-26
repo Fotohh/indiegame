@@ -1,6 +1,5 @@
 package fotoh;
 
-import fotoh.file.YML;
 import fotoh.game.GameObject;
 import fotoh.game.state.GameState;
 import fotoh.handler.CollisionManager;
@@ -8,7 +7,6 @@ import fotoh.listener.ClickListener;
 import fotoh.listener.ClickType;
 import fotoh.log.GameLogger;
 import fotoh.util.KeyboardEvent;
-import fotoh.window.Handler;
 import fotoh.window.Window;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +14,9 @@ import lombok.Setter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
-import java.io.File;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.logging.Logger;
 
 public final class Main extends Canvas implements Runnable {
 
@@ -48,15 +43,16 @@ public final class Main extends Canvas implements Runnable {
     @Getter
     private final Window window;
     @Getter
-    private final Handler handler = new Handler();
-    @Getter
     private final KeyboardEvent event;
     @Getter
     CollisionManager collisionManager = new CollisionManager();
 
-    @Setter
     @Getter
     private GameState state = GameState.DEFAULT(this).onEnable();
+
+    public void setState(GameState state) {
+        this.state = state.onEnable();
+    }
 
     private int fps;
     private double mX, mY;
@@ -96,9 +92,8 @@ public final class Main extends Canvas implements Runnable {
     }
 
     public static void main(String[] args) {
-        //new Main();
-        YML yaml = new YML(new File(Main.class.getResource("/wtf.yml").getFile()));
-        System.out.println(yaml.getSection("ok").getSection("kay").getList("ok"));
+        new Main();
+        //YML yaml = new YML(new File(Main.class.getResource("/wtf.yml").getFile()));
     }
 
     public void run() {
@@ -135,7 +130,6 @@ public final class Main extends Canvas implements Runnable {
     }
 
     private void tick(float dt) {
-        handler.tick(dt);
         collisionManager.update();
         state.tick(dt);
     }
@@ -154,8 +148,6 @@ public final class Main extends Canvas implements Runnable {
 
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, WIDTH, HEIGHT);
-
-        handler.render(g);
         state.render(g);
 
         if (DEBUG) {

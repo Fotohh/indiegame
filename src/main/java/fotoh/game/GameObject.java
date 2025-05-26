@@ -40,7 +40,6 @@ public abstract class GameObject {
         this.event = main.getEvent();
         if(collider.isEnabled()) main.getCollisionManager().register(this);
         main.getGameObjects().add(this);
-        main.getHandler().addObject(this, enabled);
 
         initializeControls();
     }
@@ -83,7 +82,6 @@ public abstract class GameObject {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        main.getHandler().replace(this, enabled);
     }
 
     public abstract void tick(float dt);
@@ -95,7 +93,7 @@ public abstract class GameObject {
     public abstract void render(Graphics g);
 
     public void delete() {
-        main.getHandler().removeObject(this);
+
     }
 
     public void resize(float width, float height) {

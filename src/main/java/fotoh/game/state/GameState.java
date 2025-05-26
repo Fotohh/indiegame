@@ -23,7 +23,7 @@ public abstract class GameState {
                 main.getTimer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        main.setState(new Menu(main).onEnable());
+                        main.setState(new Menu(main));
                     }
                 }, 1000 * 8);
                 graphic.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic));

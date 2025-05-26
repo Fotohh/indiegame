@@ -7,4 +7,6 @@ ok:
     what: "nbah"
     ok:
       - hey
-      - "yes"
+      - "no"
+      - 1.25
+      - 1

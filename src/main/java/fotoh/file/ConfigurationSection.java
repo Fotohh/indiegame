@@ -82,6 +82,26 @@ public class ConfigurationSection {
         return (List<?>) keys.get(path);
     }
 
+    public List<String> getStringList(String path) {
+        return (List<String>) getList(path);
+    }
+
+    public List<Integer> getIntegerList(String path) {
+        return (List<Integer>) getList(path);
+    }
+
+    public List<Boolean> getBooleanList(String path) {
+        return (List<Boolean>) getList(path);
+    }
+
+    public List<Float> getFloatList(String path) {
+        return (List<Float>) getList(path);
+    }
+
+    public List<Double> getDoubleList(String path) {
+        return (List<Double>) getList(path);
+    }
+
     public float getFloat(String path) {
         return (float) keys.get(path);
     }

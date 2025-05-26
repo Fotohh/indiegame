@@ -58,6 +58,8 @@ public class Player extends LivingEntity {
     @Override
     public void tick(float dt) {
 
+        if(!isEnabled()) return;
+
         if(controllable.isEnabled()) handleMovement(dt);
         gravity.applyGravity();
 
@@ -132,6 +134,7 @@ public class Player extends LivingEntity {
 
     @Override
     public void render(Graphics g) {
+        if(!isEnabled()) return;
         g.setColor(Color.BLUE);
         g.drawImage(getEntityImage(), (int) x, (int) y, main.getWindow().getJFrame());
     }

@@ -17,6 +17,8 @@ public class Block extends GameObject {
     @Override
     public void tick(float dt) {
 
+        if(!isEnabled()) return;
+
         if(controllable.isEnabled()) handleMovement(dt);
         if(!gravity.isOnGround()) gravity.fall(dt);
         y += velY * dt;
@@ -51,8 +53,9 @@ public class Block extends GameObject {
 
     @Override
     public void render(Graphics g) {
+        if(!isEnabled()) return;
         g.setColor(Color.BLUE);
-        g.fillArc((int) x, (int) y, (int) width, (int) height, 0, 360);
+        g.fillRect((int) x, (int) y, (int) width, (int) height);
     }
 
 }

@@ -36,6 +36,10 @@ public class YML {
         }
     }
 
+    public void save() {
+        yaml.dumpAsMap(keys);
+    }
+
     public Set<String> getKeys() {
         return keys.keySet();
     }
@@ -62,6 +66,26 @@ public class YML {
 
     public Object getObject(String path) {
         return keys.get(path);
+    }
+
+    public List<String> getStringList(String path) {
+        return (List<String>) getList(path);
+    }
+
+    public List<Integer> getIntegerList(String path) {
+        return (List<Integer>) getList(path);
+    }
+
+    public List<Boolean> getBooleanList(String path) {
+        return (List<Boolean>) getList(path);
+    }
+
+    public List<Float> getFloatList(String path) {
+        return (List<Float>) getList(path);
+    }
+
+    public List<Double> getDoubleList(String path) {
+        return (List<Double>) getList(path);
     }
 
     public List<?> getList(String path) {
