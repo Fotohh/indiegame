@@ -1,6 +1,7 @@
 package fotoh;
 
 import fotoh.game.GameObject;
+import fotoh.game.state.Active;
 import fotoh.game.state.GameState;
 import fotoh.handler.CollisionManager;
 import fotoh.listener.ClickListener;
@@ -9,7 +10,6 @@ import fotoh.log.GameLogger;
 import fotoh.util.KeyboardEvent;
 import fotoh.window.Window;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -48,7 +48,7 @@ public final class Main extends Canvas implements Runnable {
     CollisionManager collisionManager = new CollisionManager();
 
     @Getter
-    private GameState state = GameState.DEFAULT(this).onEnable();
+    private GameState state;
 
     public void setState(GameState state) {
         this.state = state.onEnable();
@@ -81,6 +81,7 @@ public final class Main extends Canvas implements Runnable {
         thread.start();
         running = true;
         event = new KeyboardEvent(this);
+        state = new Active(this).onEnable();
     }
 
     public void onDisable(){
@@ -131,7 +132,7 @@ public final class Main extends Canvas implements Runnable {
 
     private void tick(float dt) {
         collisionManager.update();
-        state.tick(dt);
+        if(state != null) state.tick(dt);
     }
 
     private void render() {
@@ -148,7 +149,7 @@ public final class Main extends Canvas implements Runnable {
 
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, WIDTH, HEIGHT);
-        state.render(g);
+        if(state != null) state.render(g);
 
         if (DEBUG) {
             g.setColor(Color.BLACK);

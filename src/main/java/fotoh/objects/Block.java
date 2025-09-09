@@ -12,6 +12,7 @@ public class Block extends GameObject {
     public Block(float x, float y, float width, float height, ID id, Main main) {
         super(x, y, width, height, id, main);
         getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
+        gravity.setEnabled(false);
     }
 
     @Override
@@ -20,9 +21,7 @@ public class Block extends GameObject {
         if(!isEnabled()) return;
 
         if(controllable.isEnabled()) handleMovement(dt);
-        if(!gravity.isOnGround()) gravity.fall(dt);
         y += velY * dt;
-        gravity.applyGravity();
 
         if (y < 0) {
             y = 0;
@@ -30,7 +29,6 @@ public class Block extends GameObject {
         } else if (y + height > main.getHeight()) {
             y = main.getHeight() - height;
             velY = 0;
-            gravity.setOnGround(true);
         }
 
     }
@@ -41,12 +39,10 @@ public class Block extends GameObject {
             case TOP -> {
                 other.setVelY(0);
                 other.setY(y - other.getHeight());
-                other.getGravity().setOnGround(true);
             }
             case BOTTOM -> {
                 velY = 0;
                 y = other.getY() - height;
-                gravity.setOnGround(true);
             }
         }
     }

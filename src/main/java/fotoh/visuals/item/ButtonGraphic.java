@@ -26,7 +26,6 @@ public class ButtonGraphic {
         this.y = y;
         interactable = new Interactable(ClickType.PRESSED, main.getClickListener());
         buttonClick();
-
         x1 = x;
         y1 = y;
         x2 = x + width;

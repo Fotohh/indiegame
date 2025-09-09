@@ -21,7 +21,6 @@ public class Active extends GameState {
     @Override
     public GameState onEnable() {
         Main.LOGGER.info("Active state enabled");
-
         return this;
     }
 
@@ -33,7 +32,6 @@ public class Active extends GameState {
 
     @Override
     public void onDisable() {
-
     }
 
     @Override

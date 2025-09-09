@@ -19,7 +19,7 @@ public class Menu extends GameState{
                 .withText("SETTINGS", "Arial", 20, Color.WHITE);
         settings.onButtonClick(_ -> System.out.println("Button Was Clicked. SETTINGS"));
         quit = new ButtonGraphic(300 , 400, main, 200, 100, Color.BLACK)
-                .withText("QUIT", "Arial", 20, Color.WHITE);
+                .withText("QUIT", "Arial", 20, Color.WHITE); //TODO add confirm message
         quit.onButtonClick(_ -> main.onDisable());
     }
 
@@ -30,8 +30,6 @@ public class Menu extends GameState{
     @Override
     public GameState onEnable() {
         Main.LOGGER.info("Entered Menu State");
-
-
         return this;
     }
 
@@ -48,7 +46,6 @@ public class Menu extends GameState{
         graphic.render(g);
         settings.render(g);
         quit.render(g);
-
         g.setFont(Main.DEFAULT_FONT);
     }
 

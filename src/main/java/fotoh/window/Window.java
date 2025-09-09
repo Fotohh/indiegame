@@ -22,7 +22,6 @@ public class Window {
         jFrame.setLocationRelativeTo(null);
         jFrame.setVisible(true);
         jFrame.add(main);
-
     }
 
     public JFrame getJFrame() {
