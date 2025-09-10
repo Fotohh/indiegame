@@ -4,6 +4,7 @@ import fotoh.Main;
 import fotoh.listener.ClickType;
 import fotoh.listener.Interactable;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -12,14 +13,24 @@ import java.util.function.Consumer;
 @Getter
 public class ButtonGraphic {
 
-    private final int x,y;
+    @Setter
+    private int x,y;
+    private Main main;
     private String text;
     protected Consumer<MouseEvent> consumer;
     private int x1,x2,y1,y2;
     private final Interactable interactable;
     private TextGraphic textGraphic;
+    @Setter
     private int width, height;
+    @Setter
+    @Getter
+    private boolean enabled = true;
     private int fontSize;
+
+    public void disable(){
+        this.enabled = false;
+    }
 
     public ButtonGraphic(int x, int y, Main main, int width, int height, Color color) {
         this.x = x;
@@ -30,6 +41,7 @@ public class ButtonGraphic {
         y1 = y;
         x2 = x + width;
         y2 = y + height;
+        this.main = main;
         this.width = width;
         this.height = height;
     }
@@ -48,6 +60,7 @@ public class ButtonGraphic {
 
     private void buttonClick(){
         interactable.tick(event -> {
+            if(!enabled) return;
             if(event.getX() >= x1 && event.getX() <= x2 && event.getY() >= y1 && event.getY() <= y2){
                 if(consumer != null){
                     consumer.accept(event);
@@ -61,9 +74,11 @@ public class ButtonGraphic {
     }
 
     public void render(Graphics graphics) {
+        if(!enabled) return;
         graphics.setColor(Color.BLACK);
         graphics.fillRect(x1, y1, width, height);
         if(textGraphic != null)
             textGraphic.draw(graphics, (x + width / 2)-((int)(0.3*fontSize) * textGraphic.getText().length()), (y + height / 2)+(int)(0.5*fontSize));
     }
+
 }

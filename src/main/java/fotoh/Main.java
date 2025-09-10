@@ -24,8 +24,8 @@ public final class Main extends Canvas implements Runnable {
 
     private boolean running;
     private final Thread thread;
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 600;
 
     private static final boolean DEBUG = true;
 
@@ -81,7 +81,7 @@ public final class Main extends Canvas implements Runnable {
         thread.start();
         running = true;
         event = new KeyboardEvent(this);
-        state = new Active(this).onEnable();
+        state = GameState.DEFAULT(this).onEnable();
     }
 
     public void onDisable(){
