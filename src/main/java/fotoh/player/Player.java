@@ -1,10 +1,10 @@
 package fotoh.player;
 
 import fotoh.Main;
-import fotoh.game.HealthBar;
-import fotoh.game.LivingEntity;
 import fotoh.game.GameObject;
+import fotoh.game.HealthBar;
 import fotoh.game.ID;
+import fotoh.game.LivingEntity;
 import fotoh.handler.Collider;
 import fotoh.util.ResourceManager;
 import lombok.Getter;
@@ -17,11 +17,11 @@ public class Player extends LivingEntity {
 
     private static final float ACCELERATION_FACTOR = 0.8f;
     private static final float MAX_SPEED = 7.0f;
+    private final HealthBar healthBar;
     protected boolean d_down = false;
     protected boolean a_down = false;
     protected boolean w_down = false;
     protected boolean s_down = false;
-    private final HealthBar healthBar;
 
     public Player(float x, float y, float width, float height, Main main) {
         super(x, y, width, height, ID.Player, main);
@@ -57,9 +57,9 @@ public class Player extends LivingEntity {
     @Override
     public void tick(float dt) {
 
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
 
-        if(controllable.isEnabled()) handleMovement(dt);
+        if (controllable.isEnabled()) handleMovement(dt);
 
         healthBar.tick(dt);
 
@@ -70,8 +70,6 @@ public class Player extends LivingEntity {
         if (y == 0 || y + height == main.getHeight()) velY = 0;
     }
 
-    private enum Direction { LEFT_RIGHT, UP_DOWN }
-
     private void handleInput(Direction direction, float dt) {
         boolean positiveKey = direction == Direction.UP_DOWN ? s_down : d_down;
         boolean negativeKey = direction == Direction.UP_DOWN ? w_down : a_down;
@@ -80,7 +78,8 @@ public class Player extends LivingEntity {
         if (positiveKey && negativeKey) velocity = 0;
         else if (positiveKey) velocity = Math.min(velocity + ACCELERATION_FACTOR * dt, MAX_SPEED);
         else if (negativeKey) velocity = Math.max(velocity - ACCELERATION_FACTOR * dt, -MAX_SPEED);
-        else velocity = velocity > 0 ? Math.max(velocity - ACCELERATION_FACTOR * dt, 0) : Math.min(velocity + ACCELERATION_FACTOR * dt, 0);
+        else
+            velocity = velocity > 0 ? Math.max(velocity - ACCELERATION_FACTOR * dt, 0) : Math.min(velocity + ACCELERATION_FACTOR * dt, 0);
 
         if (direction == Direction.LEFT_RIGHT) {
             velX = velocity;
@@ -114,10 +113,12 @@ public class Player extends LivingEntity {
 
     @Override
     public void render(Graphics g) {
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
         g.setColor(Color.BLUE);
         g.drawImage(getEntityImage(), (int) x, (int) y, main.getWindow().getJFrame());
         healthBar.render(g.create());
     }
+
+    private enum Direction {LEFT_RIGHT, UP_DOWN}
 
 }

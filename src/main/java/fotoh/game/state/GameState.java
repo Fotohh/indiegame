@@ -11,11 +11,11 @@ public abstract class GameState {
 
     protected final Main main;
 
-    public GameState(Main main){
+    public GameState(Main main) {
         this.main = main;
     }
 
-    public static GameState DEFAULT(Main main){
+    public static GameState DEFAULT(Main main) {
         return new GameState(main) {
 
             private static final TextGraphic graphic = new TextGraphic("Presented By", new Font("Comic-Sans", Font.PLAIN, 12), Color.BLACK);
@@ -23,8 +23,8 @@ public abstract class GameState {
 
             @Override
             public GameState onEnable() {
-                graphic.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic));
-                graphic2.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic2));
+                graphic.addAnimation(new FadeInOut(3 * 1000, 3 * 1000, 3 * 1000, graphic));
+                graphic2.addAnimation(new FadeInOut(3 * 1000, 3 * 1000, 3 * 1000, graphic2));
                 Main.LOGGER.info("GameState enabled!");
                 main.getTimer().schedule(new TimerTask() {
                     @Override
@@ -48,13 +48,18 @@ public abstract class GameState {
             }
 
             @Override
-            public void tick(float dt) {}
+            public void tick(float dt) {
+            }
 
         };
     }
 
     public abstract GameState onEnable();
+
     public abstract void render(Graphics g);
+
     public abstract void onDisable();
+
     public abstract void tick(float dt);
+
 }

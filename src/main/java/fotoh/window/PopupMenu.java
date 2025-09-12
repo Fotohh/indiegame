@@ -13,6 +13,9 @@ public class PopupMenu {
 
     @Getter
     private final int width, height;
+    private final Main main;
+    @Getter
+    private final List<PopupMenuChoice> options = new ArrayList<>();
     @Setter
     @Getter
     private int x, y;
@@ -25,10 +28,6 @@ public class PopupMenu {
     private Color background;
     @Getter
     private boolean enabled = true;
-
-    private final Main main;
-    @Getter
-    private final List<PopupMenuChoice> options = new ArrayList<>();
 
     public PopupMenu(int width, int height, String title, Main main, Color color) {
         this.width = width;
@@ -45,13 +44,13 @@ public class PopupMenu {
     }
 
     public void render(Graphics g) {
-        if(!enabled || !visible) return;
+        if (!enabled || !visible) return;
         g.setColor(background);
         g.fillRect(x, y, width, height);
-        for(PopupMenuChoice choice : options) {
+        for (PopupMenuChoice choice : options) {
             ButtonGraphic option = choice.getButton();
-            if(option == null) continue;
-            if(option.isEnabled()) option.render(g);
+            if (option == null) continue;
+            if (option.isEnabled()) option.render(g);
         }
     }
 

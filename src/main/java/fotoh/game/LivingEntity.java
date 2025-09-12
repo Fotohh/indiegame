@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 public abstract class LivingEntity extends GameObject {
 
-    private float health = 100.0f;
     private final float maxHealth = 100.0f;
+    private float health = 100.0f;
 
     public LivingEntity(float x, float y, float w, float h, ID id, Main main) {
         super(x, y, w, h, id, main);

@@ -10,7 +10,9 @@ import java.awt.*;
 public class Menu extends GameState {
 
     private final PopupMenu menu;
-
+    private final ButtonGraphic graphic;
+    private final ButtonGraphic settings;
+    private final ButtonGraphic quit;
     public Menu(Main main) {
         super(main);
         menu = new PopupMenu(200, 200, "Are you sure?", main, Color.BLUE);
@@ -27,23 +29,19 @@ public class Menu extends GameState {
         menu.getOptions().forEach(PopupMenuChoice::register);
         menu.setEnabled(false);
 
-        graphic = new ButtonGraphic(300 , 100, main, 200, 100, Color.BLACK)
+        graphic = new ButtonGraphic(300, 100, main, 200, 100, Color.BLACK)
                 .withText("PLAY", "Arial", 20, Color.WHITE);
         graphic.onButtonClick(_ -> {
             System.out.println("Button Was Clicked. BIDIBIDI");
             main.setState(new Active(main));
         });
-        settings = new ButtonGraphic(300 , 250, main, 200, 100, Color.BLACK)
+        settings = new ButtonGraphic(300, 250, main, 200, 100, Color.BLACK)
                 .withText("SETTINGS", "Arial", 20, Color.WHITE);
         settings.onButtonClick(_ -> System.out.println("Button Was Clicked. SETTINGS"));
-        quit = new ButtonGraphic(300 , 400, main, 200, 100, Color.BLACK)
+        quit = new ButtonGraphic(300, 400, main, 200, 100, Color.BLACK)
                 .withText("QUIT", "Arial", 20, Color.WHITE);
         quit.onButtonClick(_ -> menu.setEnabled(true));
     }
-
-    private final ButtonGraphic graphic;
-    private final ButtonGraphic settings;
-    private final ButtonGraphic quit;
 
     @Override
     public GameState onEnable() {
@@ -60,11 +58,11 @@ public class Menu extends GameState {
         g.setColor(Color.GREEN);
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 55));
-        g.drawString("RANDOM GAME", 105 , 385);
+        g.drawString("RANDOM GAME", 105, 385);
         graphic.render(g);
         settings.render(g);
         quit.render(g);
-        if(menu != null && menu.isVisible()) menu.render(g);
+        if (menu != null && menu.isVisible()) menu.render(g);
         g.setFont(Main.DEFAULT_FONT);
     }
 

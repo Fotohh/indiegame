@@ -17,9 +17,9 @@ public class Block extends GameObject {
     @Override
     public void tick(float dt) {
 
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
 
-        if(controllable.isEnabled()) handleMovement(dt);
+        if (controllable.isEnabled()) handleMovement(dt);
         y += velY * dt;
 
         if (y < 0) {
@@ -48,7 +48,7 @@ public class Block extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
         g.setColor(Color.BLUE);
         g.fillRect((int) x, (int) y, (int) width, (int) height);
     }

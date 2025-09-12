@@ -19,41 +19,27 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public final class Main extends Canvas implements Runnable {
 
-    public static Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 12);
-
-    private boolean running;
-    private final Thread thread;
     public static final int WIDTH = 1080;
     public static final int HEIGHT = 720;
-
-    private static final boolean DEBUG = true;
-
     public static final GameLogger LOGGER = new GameLogger("Main-Thread", null);
-
+    private static final boolean DEBUG = true;
+    public static Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 12);
+    private final Thread thread;
     @Getter
     private final Timer timer = new Timer("Main-Thread-Timer");
-
     @Getter
     private final ClickListener clickListener = new ClickListener();
-
     @Getter
     private final ConcurrentLinkedQueue<GameObject> gameObjects = new ConcurrentLinkedQueue<>();
-
     @Getter
     private final Window window;
     @Getter
     private final KeyboardEvent keyboardEvent;
     @Getter
     CollisionManager collisionManager = new CollisionManager();
-
+    private boolean running;
     @Getter
     private GameState state;
-
-    public void setState(GameState state) {
-        if(this.state != null) this.state.onDisable();
-        this.state = state.onEnable();
-    }
-
     private int fps;
     private double mX, mY;
 
@@ -81,20 +67,25 @@ public final class Main extends Canvas implements Runnable {
         thread.start();
         running = true;
         keyboardEvent = new KeyboardEvent(this);
-        state = GameState.DEFAULT(this).onEnable();
-    }
-
-    public void onDisable(){
-        running = false;
-        state.onDisable();
-        window.getJFrame().setVisible(false);
-        window.getJFrame().dispose();
-        System.exit(0);
+        setState(GameState.DEFAULT(this));
     }
 
     public static void main(String[] args) {
         new Main();
         //YML yaml = new YML(new File(Main.class.getResource("/wtf.yml").getFile()));
+    }
+
+    public void setState(GameState state) {
+        if (this.state != null) this.state.onDisable();
+        this.state = state.onEnable();
+    }
+
+    public void onDisable() {
+        running = false;
+        state.onDisable();
+        window.getJFrame().setVisible(false);
+        window.getJFrame().dispose();
+        System.exit(0);
     }
 
     public void run() {
@@ -112,17 +103,14 @@ public final class Main extends Canvas implements Runnable {
                 tick((float) delta);
                 delta--;
             }
-            if (running)
-                render();
+            if (running) render();
             frames++;
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
                 if (DEBUG) {
                     fps = frames;
-                    if (getMousePosition() != null){
-                        mX = getMousePosition().getX();
-                        mY = getMousePosition().getY();
-                    }
+                    mX = getMousePosition() == null ? 0 : getMousePosition().getX();
+                    mY = getMousePosition() == null ? 0 : getMousePosition().getY();
                 }
                 frames = 0;
             }
@@ -132,24 +120,24 @@ public final class Main extends Canvas implements Runnable {
 
     private void tick(float dt) {
         collisionManager.update();
-        if(state != null) state.tick(dt);
+        if (state != null) state.tick(dt);
     }
 
     private void render() {
 
-        if(!running) return;
+        if (!running) return;
 
         BufferStrategy bufferStrategy = getBufferStrategy();
         if (bufferStrategy == null) {
             createBufferStrategy(3);
             return;
         }
-        if(bufferStrategy.getDrawGraphics() == null) return;
+        if (bufferStrategy.getDrawGraphics() == null) return;
         Graphics g = bufferStrategy.getDrawGraphics();
 
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, WIDTH, HEIGHT);
-        if(state != null) state.render(g);
+        if (state != null) state.render(g);
 
         if (DEBUG) {
             g.setColor(Color.BLACK);

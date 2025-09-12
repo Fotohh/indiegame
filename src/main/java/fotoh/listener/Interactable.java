@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public class Interactable {
 
     private final UUID uuid = UUID.randomUUID();
-
+    protected Consumer<MouseEvent> callback;
     @Getter
     @Setter
     private boolean enabled = true;
@@ -19,9 +19,7 @@ public class Interactable {
         clickListener.register(this, type);
     }
 
-    protected Consumer<MouseEvent> callback;
-
-    public void tick(Consumer<MouseEvent> consumer){
+    public void tick(Consumer<MouseEvent> consumer) {
         this.callback = consumer;
     }
 

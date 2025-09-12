@@ -10,17 +10,8 @@ import java.util.function.Consumer;
 @Getter
 public class Collider {
 
-    public enum CollisionDirection {
-            TOP,
-            BOTTOM,
-            LEFT,
-            RIGHT,
-            NONE;
-    }
-
     @Setter
     private boolean enabled = true;
-
     private Consumer<GameObject> other;
 
     public void onCollide(Consumer<GameObject> other) {
@@ -51,7 +42,7 @@ public class Collider {
     }
 
     public boolean checkSATCollision(GameObject A, GameObject B) {
-        if(!enabled) return false;
+        if (!enabled) return false;
         float[][] axesA = A.getAxes();
         float[][] axesB = B.getAxes();
 
@@ -77,10 +68,18 @@ public class Collider {
         float absDy = Math.abs(dy);
 
         if (absDx > absDy) {
-             return dx > 0 ? CollisionDirection.LEFT : CollisionDirection.RIGHT;
+            return dx > 0 ? CollisionDirection.LEFT : CollisionDirection.RIGHT;
         } else {
             return dy > 0 ? CollisionDirection.BOTTOM : CollisionDirection.TOP;
         }
+    }
+
+    public enum CollisionDirection {
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT,
+        NONE;
     }
 
 }

@@ -18,15 +18,15 @@ public class Active extends GameState {
     @Getter
     private final Player player;
     private final Block block;
-    private boolean paused;
     private final KeyboardEvent.Handler pauseKey;
+    private boolean paused;
 
     public Active(Main main) {
         super(main);
         player = new Player(200, 300, 50, 50, main);
         block = new Block(200, 200, 50, 50, ID.Block, main);
         pauseKey = main.getKeyboardEvent().add(keyEvent -> {
-            if(keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 paused = !paused;
             }
         }, KeyboardEvent.Type.RELEASED, CLASS_ID);
@@ -41,7 +41,7 @@ public class Active extends GameState {
     @Override
     public void render(Graphics g) {
 
-        if(paused) {
+        if (paused) {
             g.setColor(Color.black);
             g.drawString("Paused", 100, 100);
         }
@@ -57,7 +57,7 @@ public class Active extends GameState {
 
     @Override
     public void tick(float dt) {
-        if(paused) return;
+        if (paused) return;
         block.tick(dt);
 
         player.tick(dt); // goes last to be on top

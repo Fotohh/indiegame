@@ -3,7 +3,7 @@ package fotoh.log;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GameLogger{
+public class GameLogger {
 
     private final Logger logger;
 

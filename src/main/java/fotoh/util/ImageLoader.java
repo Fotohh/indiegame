@@ -8,14 +8,14 @@ import java.io.IOException;
 
 class ImageLoader {
 
-    protected static Image loadImage(String filename){
+    protected static Image loadImage(String filename) {
         return bufferImage(filename);
     }
 
-    private static BufferedImage bufferImage(String filePath){
+    private static BufferedImage bufferImage(String filePath) {
         BufferedImage img;
-        try{
-           img = ImageIO.read(new File(filePath));
+        try {
+            img = ImageIO.read(new File(filePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

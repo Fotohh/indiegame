@@ -13,18 +13,18 @@ import java.util.UUID;
 @Setter
 public abstract class GameObject {
 
-    private final UUID classId = UUID.randomUUID();
-    protected float velX, velY, x, y, width, height;
     protected final Controllable controllable;
+    protected final ID id;
+    protected final Main main;
+    private final UUID classId = UUID.randomUUID();
     private final KeyboardEvent event;
     private final Collider collider = new Collider();
     private final UUID objectUUID;
+    protected float velX, velY, x, y, width, height;
+    protected Image entityImage;
+    protected boolean w_down = false;
     private boolean isVisible = true;
     private boolean enabled = true;
-    protected Image entityImage;
-    protected final ID id;
-    protected final Main main;
-    protected boolean w_down = false;
     @Getter
     private KeyboardEvent.Handler keyboardHandler;
 
@@ -38,7 +38,7 @@ public abstract class GameObject {
         this.id = id;
         this.main = main;
         this.event = main.getKeyboardEvent();
-        if(collider.isEnabled()) main.getCollisionManager().register(this);
+        if (collider.isEnabled()) main.getCollisionManager().register(this);
         main.getGameObjects().add(this);
         initializeControls();
     }
@@ -77,7 +77,8 @@ public abstract class GameObject {
         };
     }
 
-    protected void handleMovement(float dt) {}
+    protected void handleMovement(float dt) {
+    }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -85,7 +86,8 @@ public abstract class GameObject {
 
     public abstract void tick(float dt);
 
-    public void initializeControls() {}
+    public void initializeControls() {
+    }
 
     protected abstract void handleCollision(GameObject other, Collider.CollisionDirection collisionDirection);
 
