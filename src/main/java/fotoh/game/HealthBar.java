@@ -19,6 +19,7 @@ public class HealthBar {
     @Setter
     @Getter
     private boolean enabled = true;
+    private float tempX = -1, tempY = -1;
 
     public HealthBar(LivingEntity entity, float width, float height, float xOffset, float yOffset) {
         this.entity = entity;
@@ -29,8 +30,8 @@ public class HealthBar {
     }
 
     public void render(Graphics g) {
-        if(!enabled) return;
-        if(entity == null) return;
+        if (!enabled) return;
+        if (entity == null) return;
 
         float healthPercentage = entity.getHealth() / entity.getMaxHealth();
         int barWidth = (int) (width * healthPercentage);
@@ -45,14 +46,12 @@ public class HealthBar {
         g.drawRect(x - borderThickness, y - borderThickness, (int) width + 2 * borderThickness - 1, (int) height + 2 * borderThickness - 1);
     }
 
-    private float tempX = -1, tempY = -1;
-
     public void tick(float dt) {
-        if(!enabled) return;
-        if(entity == null) return;
+        if (!enabled) return;
+        if (entity == null) return;
         x = (int) (entity.getX() + xOffset);
         y = (int) (entity.getY() + yOffset);
-        if(tempX != x || tempY != y) {
+        if (tempX != x || tempY != y) {
             tempX = x;
             tempY = y;
         }

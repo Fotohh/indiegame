@@ -23,6 +23,13 @@ public class ConfigurationSection {
         this.name = name;
     }
 
+    public ConfigurationSection(String name, Map<String, Object> keys, Map<String, Object> parent, YML yml) {
+        this.yml = yml;
+        this.name = name;
+        this.parent = parent;
+        this.keys = keys;
+    }
+
     protected Map<String, Object> getSectionKeys() {
         return keys;
     }
@@ -33,13 +40,6 @@ public class ConfigurationSection {
 
     protected Map<String, Object> getParentKeys() {
         return parent;
-    }
-
-    public ConfigurationSection(String name, Map<String, Object> keys, Map<String, Object> parent, YML yml) {
-        this.yml = yml;
-        this.name = name;
-        this.parent = parent;
-        this.keys = keys;
     }
 
     public ConfigurationSection getParent() {
@@ -108,19 +108,19 @@ public class ConfigurationSection {
 
     public ConfigurationSection getSection(String sectionName) {
         Map<String, Object> values;
-        if(!keys.containsKey(sectionName)) return null;
-        if(!(keys.get(sectionName) instanceof Map<?,?>)) return null;
+        if (!keys.containsKey(sectionName)) return null;
+        if (!(keys.get(sectionName) instanceof Map<?, ?>)) return null;
         try {
             values = (Map<String, Object>) keys.get(sectionName);
-        }catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
         return new ConfigurationSection(sectionName, values, keys, yml);
     }
 
     public ConfigurationSection getOrCreateSection(String sectionName) {
-        if(getSection(sectionName) != null) return getSection(sectionName);
-        else{
+        if (getSection(sectionName) != null) return getSection(sectionName);
+        else {
             return createSection(sectionName);
         }
     }

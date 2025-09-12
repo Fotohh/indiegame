@@ -5,13 +5,13 @@ import lombok.Getter;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 @Getter
 public class KeyboardEvent {
-
-    public record Handler(Type type, Consumer<KeyEvent> eventConsumer, UUID uuid) { }
 
     private final List<Handler> list = new ArrayList<>();
 
@@ -59,5 +59,8 @@ public class KeyboardEvent {
         PRESSED,
         RELEASED,
         TYPED
+    }
+
+    public record Handler(Type type, Consumer<KeyEvent> eventConsumer, UUID uuid) {
     }
 }

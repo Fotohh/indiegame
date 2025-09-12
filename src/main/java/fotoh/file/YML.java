@@ -11,29 +11,32 @@ import java.util.Set;
 
 public class YML {
 
+    private final Yaml yaml = new Yaml();
+    private final File file;
+    private final Map<String, Object> keys;
     public YML(String folder, String filename) {
         this(new File(folder, filename));
     }
 
-    private final Yaml yaml = new Yaml();
-    private final File file;
-    private final Map<String, Object> keys;
-
     public YML(File file) {
         File parent = file.getParentFile();
-        if(!parent.exists()) parent.mkdirs();
-        if(!file.exists()) try {
+        if (!parent.exists()) parent.mkdirs();
+        if (!file.exists()) try {
             file.createNewFile();
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Unable to create file", e);
         }
         this.file = file;
 
         try {
             this.keys = yaml.load(new FileReader(file));
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Unable to load Yaml file", e);
         }
+    }
+
+    public YML(File parent, String filename) {
+        this(new File(parent, filename));
     }
 
     public void save() {
@@ -96,10 +99,6 @@ public class YML {
         return (float) keys.get(path);
     }
 
-    public YML(File parent, String filename) {
-        this(new File(parent, filename));
-    }
-
     public ConfigurationSection createSection(String sectionName) {
         return new ConfigurationSection(sectionName, keys, this);
     }
@@ -110,19 +109,19 @@ public class YML {
 
     public ConfigurationSection getSection(String sectionName) {
         Map<String, Object> values;
-        if(!keys.containsKey(sectionName)) return null;
-        if(!(keys.get(sectionName) instanceof Map<?,?>)) return null;
+        if (!keys.containsKey(sectionName)) return null;
+        if (!(keys.get(sectionName) instanceof Map<?, ?>)) return null;
         try {
             values = (Map<String, Object>) keys.get(sectionName);
-        }catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
         return new ConfigurationSection(sectionName, values, keys, this);
     }
 
     public ConfigurationSection getOrCreateSection(String sectionName) {
-        if(getSection(sectionName) != null) return getSection(sectionName);
-        else{
+        if (getSection(sectionName) != null) return getSection(sectionName);
+        else {
             return createSection(sectionName);
         }
     }

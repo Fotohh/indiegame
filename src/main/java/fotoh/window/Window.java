@@ -3,7 +3,8 @@ package fotoh.window;
 import fotoh.Main;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Window {
     private final JFrame jFrame;

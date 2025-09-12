@@ -13,24 +13,19 @@ import java.util.function.Consumer;
 @Getter
 public class ButtonGraphic {
 
-    @Setter
-    private int x,y;
     private final Main main;
-    private String text;
-    protected Consumer<MouseEvent> consumer;
-    private final int x1,x2,y1,y2;
+    private final int x1, x2, y1, y2;
     private final Interactable interactable;
+    protected Consumer<MouseEvent> consumer;
+    @Setter
+    private int x, y;
+    private String text;
     private TextGraphic textGraphic;
     @Setter
     private int width, height;
     @Getter
     private boolean enabled = true;
     private int fontSize;
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-        interactable.setEnabled(enabled);
-    }
 
     public ButtonGraphic(int x, int y, Main main, int width, int height, Color color) {
         this.x = x;
@@ -47,6 +42,11 @@ public class ButtonGraphic {
         setEnabled(true);
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        interactable.setEnabled(enabled);
+    }
+
     public ButtonGraphic withText(String text, String font, int fontSize, Color color) {
         this.text = text;
         this.fontSize = fontSize;
@@ -54,31 +54,31 @@ public class ButtonGraphic {
         return this;
     }
 
-    public ButtonGraphic withImage(Image image){
+    public ButtonGraphic withImage(Image image) {
 
         return this;
     }
 
-    private void buttonClick(){
+    private void buttonClick() {
         interactable.tick(event -> {
-            if(event.getX() >= x1 && event.getX() <= x2 && event.getY() >= y1 && event.getY() <= y2){
-                if(consumer != null){
+            if (event.getX() >= x1 && event.getX() <= x2 && event.getY() >= y1 && event.getY() <= y2) {
+                if (consumer != null) {
                     consumer.accept(event);
                 }
             }
         });
     }
 
-    public void onButtonClick(Consumer<MouseEvent> consumer){
+    public void onButtonClick(Consumer<MouseEvent> consumer) {
         this.consumer = consumer;
     }
 
     public void render(Graphics graphics) {
-        if(!enabled) return;
+        if (!enabled) return;
         graphics.setColor(Color.BLACK);
         graphics.fillRect(x1, y1, width, height);
-        if(textGraphic != null)
-            textGraphic.draw(graphics, (x + width / 2)-((int)(0.3*fontSize) * textGraphic.getText().length()), (y + height / 2)+(int)(0.5*fontSize));
+        if (textGraphic != null)
+            textGraphic.draw(graphics, (x + width / 2) - ((int) (0.3 * fontSize) * textGraphic.getText().length()), (y + height / 2) + (int) (0.5 * fontSize));
     }
 
 }

@@ -11,13 +11,13 @@ import java.util.function.Consumer;
 @Getter
 public class PopupMenuChoice {
 
-    private ButtonGraphic button;
     private final Consumer<MouseEvent> callback;
     private final int slot;
     private final PopupMenu menu;
     private final Main main;
     private final Color color;
     private final String text;
+    private ButtonGraphic button;
 
     public PopupMenuChoice(Main main, PopupMenu menu, Color color, String text, Consumer<MouseEvent> call) {
         this.callback = call;
