@@ -1,7 +1,6 @@
 package fotoh.listener;
 
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ClickListener {
@@ -11,16 +10,20 @@ public class ClickListener {
     private final ConcurrentLinkedQueue<Interactable> hover = new ConcurrentLinkedQueue<>();
 
     public void register(Interactable interactable, ClickType type){
-        switch (type){
-            case HOVER -> hover.add(interactable);
-            case PRESSED -> pressed.add(interactable);
-            case RELEASED -> released.add(interactable);
-        }
+        ConcurrentLinkedQueue<Interactable> list = switch (type) {
+            case HOVER -> hover;
+            case PRESSED -> pressed;
+            case RELEASED -> released;
+        };
+        if(list.contains(interactable)) return;
+        list.add(interactable);
     }
 
     private synchronized void iterate(ConcurrentLinkedQueue<Interactable> list, MouseEvent event){
-        for(Interactable interactable : list) {
-            if(interactable.call != null) interactable.call.accept(event);
+        for(Interactable item : list) {
+            if(item.callback != null && item.isEnabled()) {
+                item.callback.accept(event);
+            }
         }
     }
 

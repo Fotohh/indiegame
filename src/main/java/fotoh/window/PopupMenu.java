@@ -55,22 +55,12 @@ public class PopupMenu {
         }
     }
 
-    public synchronized void disable() {
-        this.enabled = false;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        this.visible = enabled;
         options.forEach(option -> {
             if (option.getButton() != null) {
-                option.getButton().disable();
-            }
-        });
-        this.visible = false;
-    }
-
-    public synchronized void enable() {
-        this.enabled = true;
-        this.visible = true;
-        options.forEach(option -> {
-            if (option.getButton() != null) {
-                option.getButton().setEnabled(true);
+                option.getButton().setEnabled(enabled);
             }
         });
     }

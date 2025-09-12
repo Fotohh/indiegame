@@ -51,6 +51,7 @@ public final class Main extends Canvas implements Runnable {
     private GameState state;
 
     public void setState(GameState state) {
+        if(this.state != null) this.state.onDisable();
         this.state = state.onEnable();
     }
 

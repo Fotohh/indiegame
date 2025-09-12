@@ -15,21 +15,21 @@ public class ButtonGraphic {
 
     @Setter
     private int x,y;
-    private Main main;
+    private final Main main;
     private String text;
     protected Consumer<MouseEvent> consumer;
-    private int x1,x2,y1,y2;
+    private final int x1,x2,y1,y2;
     private final Interactable interactable;
     private TextGraphic textGraphic;
     @Setter
     private int width, height;
-    @Setter
     @Getter
     private boolean enabled = true;
     private int fontSize;
 
-    public void disable(){
-        this.enabled = false;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        interactable.setEnabled(enabled);
     }
 
     public ButtonGraphic(int x, int y, Main main, int width, int height, Color color) {
@@ -44,6 +44,7 @@ public class ButtonGraphic {
         this.main = main;
         this.width = width;
         this.height = height;
+        setEnabled(true);
     }
 
     public ButtonGraphic withText(String text, String font, int fontSize, Color color) {
@@ -60,7 +61,6 @@ public class ButtonGraphic {
 
     private void buttonClick(){
         interactable.tick(event -> {
-            if(!enabled) return;
             if(event.getX() >= x1 && event.getX() <= x2 && event.getY() >= y1 && event.getY() <= y2){
                 if(consumer != null){
                     consumer.accept(event);

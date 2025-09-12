@@ -4,11 +4,13 @@ import fotoh.Main;
 import fotoh.game.ID;
 import fotoh.objects.Block;
 import fotoh.player.Player;
+import lombok.Getter;
 
 import java.awt.*;
 
 public class Active extends GameState {
 
+    @Getter
     private final Player player;
     private final Block block;
 
@@ -26,8 +28,9 @@ public class Active extends GameState {
 
     @Override
     public void render(Graphics g) {
-        player.render(g);
         block.render(g);
+
+        player.render(g); // goes last to be on top
     }
 
     @Override
@@ -36,7 +39,8 @@ public class Active extends GameState {
 
     @Override
     public void tick(float dt) {
-        player.tick(dt);
         block.tick(dt);
+
+        player.tick(dt); // goes last to be on top
     }
 }

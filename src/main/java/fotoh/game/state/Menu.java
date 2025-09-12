@@ -21,11 +21,11 @@ public class Menu extends GameState {
         });
         new PopupMenuChoice(main, menu, Color.GREEN, "No", _ -> {
             menu.setVisible(false);
-            menu.disable();
+            menu.setEnabled(false);
             System.out.println("cancelled");
         });
         menu.getOptions().forEach(PopupMenuChoice::register);
-        menu.disable();
+        menu.setEnabled(false);
 
         graphic = new ButtonGraphic(300 , 100, main, 200, 100, Color.BLACK)
                 .withText("PLAY", "Arial", 20, Color.WHITE);
@@ -38,9 +38,7 @@ public class Menu extends GameState {
         settings.onButtonClick(_ -> System.out.println("Button Was Clicked. SETTINGS"));
         quit = new ButtonGraphic(300 , 400, main, 200, 100, Color.BLACK)
                 .withText("QUIT", "Arial", 20, Color.WHITE);
-        quit.onButtonClick(_ -> {
-            menu.enable();
-        });
+        quit.onButtonClick(_ -> menu.setEnabled(true));
     }
 
     private final ButtonGraphic graphic;
@@ -72,10 +70,10 @@ public class Menu extends GameState {
 
     @Override
     public void onDisable() {
-        graphic.disable();
-        settings.disable();
-        quit.disable();
-        menu.disable();
+        graphic.setEnabled(false);
+        settings.setEnabled(false);
+        quit.setEnabled(false);
+        menu.setEnabled(false);
     }
 
     @Override

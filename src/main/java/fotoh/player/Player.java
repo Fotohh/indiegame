@@ -1,6 +1,7 @@
 package fotoh.player;
 
 import fotoh.Main;
+import fotoh.game.HealthBar;
 import fotoh.game.LivingEntity;
 import fotoh.game.GameObject;
 import fotoh.game.ID;
@@ -20,6 +21,7 @@ public class Player extends LivingEntity {
     protected boolean a_down = false;
     protected boolean w_down = false;
     protected boolean s_down = false;
+    private final HealthBar healthBar;
 
     public Player(float x, float y, float width, float height, Main main) {
         super(x, y, width, height, ID.Player, main);
@@ -28,6 +30,7 @@ public class Player extends LivingEntity {
         getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
         gravity.setEnabled(false);
         getControllable().setEnabled(true);
+        healthBar = new HealthBar(this, 35, 5, width * 0.2F, -20);
     }
 
     @Override
@@ -59,6 +62,8 @@ public class Player extends LivingEntity {
 
         if(controllable.isEnabled()) handleMovement(dt);
 
+        healthBar.tick(dt);
+
         x = Math.max(0, Math.min(x, main.getWidth() - width));
         if (x == 0 || x + width == main.getWidth()) velX = 0;
 
@@ -66,45 +71,26 @@ public class Player extends LivingEntity {
         if (y == 0 || y + height == main.getHeight()) velY = 0;
     }
 
-    private enum Direction {
-        LEFT_RIGHT,
-        UP_DOWN
+    private enum Direction { LEFT_RIGHT, UP_DOWN }
+
+    private void handleInput(Direction direction, float dt) {
+        boolean positiveKey = direction == Direction.UP_DOWN ? s_down : d_down;
+        boolean negativeKey = direction == Direction.UP_DOWN ? w_down : a_down;
+        float velocity = direction == Direction.UP_DOWN ? velY : velX;
+
+        if (positiveKey && negativeKey) velocity = 0;
+        else if (positiveKey) velocity = Math.min(velocity + ACCELERATION_FACTOR * dt, MAX_SPEED);
+        else if (negativeKey) velocity = Math.max(velocity - ACCELERATION_FACTOR * dt, -MAX_SPEED);
+        else velocity = velocity > 0 ? Math.max(velocity - ACCELERATION_FACTOR * dt, 0) : Math.min(velocity + ACCELERATION_FACTOR * dt, 0);
+
+        if (direction == Direction.LEFT_RIGHT) {
+            velX = velocity;
+            x += velX * dt;
+        } else {
+            velY = velocity;
+            y += velY * dt;
+        }
     }
-
-   private void handleInput(Direction direction, float dt) {
-       boolean positiveKey, negativeKey;
-       float velocity;
-
-       if (direction == Direction.UP_DOWN) {
-           positiveKey = s_down;
-           negativeKey = w_down;
-           velocity = velY;
-       } else {
-           positiveKey = d_down;
-           negativeKey = a_down;
-           velocity = velX;
-       }
-
-       if (positiveKey && negativeKey) {
-           velocity = 0;
-       } else if (positiveKey) {
-           velocity = Math.min(velocity + ACCELERATION_FACTOR * dt, MAX_SPEED);
-       } else if (negativeKey) {
-           velocity = Math.max(velocity - ACCELERATION_FACTOR * dt, -MAX_SPEED);
-       } else {
-           velocity = velocity > 0
-                   ? Math.max(velocity - ACCELERATION_FACTOR * dt, 0)
-                   : Math.min(velocity + ACCELERATION_FACTOR * dt, 0);
-       }
-
-       if (direction == Direction.LEFT_RIGHT) {
-           velX = velocity;
-           x += velX * dt;
-       } else {
-           velY = velocity;
-           y += velY * dt;
-       }
-   }
 
     @Override
     protected void handleMovement(float dt) {
@@ -132,6 +118,7 @@ public class Player extends LivingEntity {
         if(!isEnabled()) return;
         g.setColor(Color.BLUE);
         g.drawImage(getEntityImage(), (int) x, (int) y, main.getWindow().getJFrame());
+        healthBar.render(g.create());
     }
 
 }

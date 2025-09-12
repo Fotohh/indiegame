@@ -1,7 +1,9 @@
 package fotoh.listener;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.awt.event.MouseEvent;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -9,14 +11,18 @@ public class Interactable {
 
     private final UUID uuid = UUID.randomUUID();
 
-    public Interactable(ClickType type, ClickListener clickListener){
+    @Getter
+    @Setter
+    private boolean enabled = true;
+
+    public Interactable(ClickType type, ClickListener clickListener) {
         clickListener.register(this, type);
     }
 
-    protected Consumer<MouseEvent> call;
+    protected Consumer<MouseEvent> callback;
 
     public void tick(Consumer<MouseEvent> consumer){
-        this.call = consumer;
+        this.callback = consumer;
     }
 
     @Override

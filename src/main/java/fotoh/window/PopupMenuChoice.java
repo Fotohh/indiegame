@@ -41,15 +41,4 @@ public class PopupMenuChoice {
         return this;
     }
 
-    public void enable() {
-        if (button != null) {
-            button.setEnabled(true);
-        }
-    }
-
-    public void disable() {
-        if (button != null) {
-            button.disable();
-        }
-    }
 }
