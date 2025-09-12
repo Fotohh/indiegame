@@ -7,7 +7,9 @@ import java.util.TimerTask;
 
 public class FadeInOut extends Animation {
 
-    private long fadeIn, stay, fadeOut;
+    private final long fadeIn;
+    private long stay;
+    private final long fadeOut;
 
     private final GraphicItem item;
 
@@ -23,12 +25,12 @@ public class FadeInOut extends Animation {
         this.fadeIn= fadeIn;
         this.fadeOut = fadeOut;
         this.stay = stay;
-        item.animations.add(this);
         item.alpha = 0;
     }
 
     @Override
     public void run(){
+        System.out.println("Animation fadeIn");
         timer.scheduleAtFixedRate(new TimerTask() {
             final int fis = (int) (fadeIn / 255);
             int counter = fis;

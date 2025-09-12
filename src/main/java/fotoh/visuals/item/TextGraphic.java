@@ -2,7 +2,6 @@ package fotoh.visuals.item;
 
 import fotoh.visuals.Animation;
 import fotoh.visuals.GraphicItem;
-import lombok.Setter;
 
 import java.awt.*;
 
@@ -10,18 +9,14 @@ public class TextGraphic extends GraphicItem {
 
     private final String textToDraw;
     private final Font font;
-    @Setter
-    private Color color;
 
     public TextGraphic(String textToDraw, Font font, Color color){
         this.textToDraw = textToDraw;
         this.font = font;
-        this.color = color;
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
+        r = color.getRed();
+        g = color.getGreen();
+        b = color.getBlue();
+        alpha = color.getAlpha();
     }
 
     @Override
@@ -30,6 +25,7 @@ public class TextGraphic extends GraphicItem {
         graphics.setFont(font);
         graphics.drawString(textToDraw, x, y);
         if(animations.peek() != null){
+            System.out.println("Animation peek");
             Animation anim = animations.poll();
             anim.run();
         }

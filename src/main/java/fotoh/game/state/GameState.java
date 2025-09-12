@@ -17,27 +17,29 @@ public abstract class GameState {
 
     public static GameState DEFAULT(Main main){
         return new GameState(main) {
+
+            private static final TextGraphic graphic = new TextGraphic("Presented By", new Font("Comic-Sans", Font.PLAIN, 12), Color.BLACK);
+            private static final TextGraphic graphic2 = new TextGraphic("Xaxis Studios", new Font("Comic-Sans", Font.PLAIN, 75), Color.BLACK);
+
             @Override
             public GameState onEnable() {
+                graphic.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic));
+                graphic2.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic2));
                 Main.LOGGER.info("GameState enabled!");
                 main.getTimer().schedule(new TimerTask() {
                     @Override
                     public void run() {
                         main.setState(new Menu(main));
                     }
-                }, 1000 * 8);
-                graphic.addAnimation(new FadeInOut(3*1000,3*1000,3*1000, graphic));
+                }, 1000 * 10);
+
                 return this;
             }
 
-            private static final TextGraphic graphic = new TextGraphic("Presented By", new Font("Comic-Sans", Font.PLAIN, 75), Color.BLACK);
-
             @Override
             public void render(Graphics g) {
-                g.setColor(Color.BLACK);
-                graphic.draw(g.create(), 300, 250);
-                g.drawString("Xaxis Studios", 500, 350);
-                g.setFont(Main.DEFAULT_FONT);
+                graphic.draw(g.create(), 500, 350);
+                graphic2.draw(g.create(), 300, 250);
             }
 
             @Override
@@ -46,9 +48,8 @@ public abstract class GameState {
             }
 
             @Override
-            public void tick(float dt) {
+            public void tick(float dt) {}
 
-            }
         };
     }
 
