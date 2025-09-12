@@ -12,7 +12,6 @@ public class Block extends GameObject {
     public Block(float x, float y, float width, float height, ID id, Main main) {
         super(x, y, width, height, id, main);
         getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
-        gravity.setEnabled(false);
     }
 
     @Override

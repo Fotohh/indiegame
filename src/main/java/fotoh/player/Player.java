@@ -28,7 +28,6 @@ public class Player extends LivingEntity {
         Image image = ResourceManager.getImage(getClass().getResource("/person.png").getFile());
         setEntityImage(image.getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
         getCollider().onCollide(gameObject -> handleCollision(gameObject, getCollider().getCollisionDirection(this, gameObject)));
-        gravity.setEnabled(false);
         getControllable().setEnabled(true);
         healthBar = new HealthBar(this, 35, 5, width * 0.2F, -20);
     }

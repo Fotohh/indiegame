@@ -31,16 +31,13 @@ public class Controllable {
     this.enabled = enabled;
     if (enabled) initializeControls();
     if (!enabled) {
-      gameObject.getEvent().remove(gameObject);
+      gameObject.getEvent().clear(gameObject.getClassId());
     }
   }
 
   public Controllable(GameObject gameObject) {
-
     this.gameObject = gameObject;
-
     initializeControls();
-
   }
 
   public void initializeControls() {
@@ -51,7 +48,7 @@ public class Controllable {
           control.event.accept(true);
         }
       }
-    }, KeyboardEvent.Type.PRESSED, gameObject);
+    }, KeyboardEvent.Type.PRESSED, gameObject.getClassId());
 
     gameObject.getEvent().add(keyEvent -> {
       for (Control control : keyReleased) {
@@ -59,7 +56,7 @@ public class Controllable {
           control.event.accept(false);
         }
       }
-    }, KeyboardEvent.Type.RELEASED, gameObject);
+    }, KeyboardEvent.Type.RELEASED, gameObject.getClassId());
   }
 
   public synchronized void keyPressed(int key, Consumer<Boolean> event) {

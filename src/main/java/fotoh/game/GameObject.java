@@ -7,16 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.UUID;
 
 @Getter
 @Setter
 public abstract class GameObject {
 
+    private final UUID classId = UUID.randomUUID();
     protected float velX, velY, x, y, width, height;
-    protected final Gravity gravity = new Gravity(this);
     protected final Controllable controllable;
     private final KeyboardEvent event;
     private final Collider collider = new Collider();
@@ -27,6 +25,8 @@ public abstract class GameObject {
     protected final ID id;
     protected final Main main;
     protected boolean w_down = false;
+    @Getter
+    private KeyboardEvent.Handler keyboardHandler;
 
     public GameObject(float x, float y, float w, float h, ID id, Main main) {
         controllable = new Controllable(this);
@@ -37,10 +37,9 @@ public abstract class GameObject {
         this.objectUUID = UUID.randomUUID();
         this.id = id;
         this.main = main;
-        this.event = main.getEvent();
+        this.event = main.getKeyboardEvent();
         if(collider.isEnabled()) main.getCollisionManager().register(this);
         main.getGameObjects().add(this);
-
         initializeControls();
     }
 
@@ -99,4 +98,5 @@ public abstract class GameObject {
     public void resize(float width, float height) {
         setEntityImage(getEntityImage().getScaledInstance((int) width, (int) height, Image.SCALE_DEFAULT));
     }
+
 }

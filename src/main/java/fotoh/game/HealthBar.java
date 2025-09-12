@@ -12,7 +12,6 @@ public class HealthBar {
     private float xOffset, yOffset;
     private int borderThickness = 2;
     private Color healthBarFull = Color.GREEN;
-    private Color healthBarEmpty = Color.RED;
     private Color borderColor = Color.BLACK;
     private Color backgroundColor = Color.GRAY;
     private int x = 0, y = 0;

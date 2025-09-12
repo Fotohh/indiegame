@@ -1,7 +1,6 @@
 package fotoh;
 
 import fotoh.game.GameObject;
-import fotoh.game.state.Active;
 import fotoh.game.state.GameState;
 import fotoh.handler.CollisionManager;
 import fotoh.listener.ClickListener;
@@ -43,7 +42,7 @@ public final class Main extends Canvas implements Runnable {
     @Getter
     private final Window window;
     @Getter
-    private final KeyboardEvent event;
+    private final KeyboardEvent keyboardEvent;
     @Getter
     CollisionManager collisionManager = new CollisionManager();
 
@@ -81,7 +80,7 @@ public final class Main extends Canvas implements Runnable {
         thread = new Thread(this);
         thread.start();
         running = true;
-        event = new KeyboardEvent(this);
+        keyboardEvent = new KeyboardEvent(this);
         state = GameState.DEFAULT(this).onEnable();
     }
 
